@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import {Route,Switch,Redirect } from 'react-router-dom';
+import LoginUser from './login';
+import RegisterUser from './register';
+import AllShops from './shops';
+import AllProducts from './products';
+import Cart from './cart';
+import Home from './home';
 
 function App() {
+  var apiToken = localStorage.getItem('token');
+  if(apiToken==null){
+    return (
+      <>
+      <Switch>
+        <Route path="/login" component={LoginUser} />
+        <Route path="/register" component={RegisterUser} />
+        <Redirect to="/login"/> 
+      </Switch>
+      </>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Switch>
+      {/* <Route exact path="/" component={()=> <About name="Tanmoy"/>} /> */}
+      <Route path="/" exact component={Home} />
+      <Route path="/shops" exact component={AllShops} />
+      <Route path="/shop/:shopid" exact component={AllProducts} />
+      <Route path="/cart" exact component={Cart} />
+      <Redirect to="/"/> 
+    </Switch>
+
+    </>
   );
 }
 
