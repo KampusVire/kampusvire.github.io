@@ -64,7 +64,7 @@ const AllShops = ()=>{
             <h1>Hello This a AllShops page</h1>
 
             {shops.map(shop=>{
-                return <div>
+                return <div key={shop.objId}>
                     <h2>{shop.name}</h2>
                     <h3>{shop.type}</h3>
                     <h3>{shop.objId}</h3>
