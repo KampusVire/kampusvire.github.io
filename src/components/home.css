@@ -1,0 +1,15 @@
+/* For Qr code */
+.QrImg{
+    height: 16rem;
+    width: 16rem;
+    margin: auto;
+}
+/* For Qr code  at modal*/
+.QrImgModal{
+    height: 20rem;
+    display: flex;
+    width: 20rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
