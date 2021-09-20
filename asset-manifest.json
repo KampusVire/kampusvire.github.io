@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/kampusvirefront/static/css/main.0880029f.chunk.css",
-    "main.js": "/kampusvirefront/static/js/main.c2a69e55.chunk.js",
-    "main.js.map": "/kampusvirefront/static/js/main.c2a69e55.chunk.js.map",
-    "runtime-main.js": "/kampusvirefront/static/js/runtime-main.e71bdba7.js",
-    "runtime-main.js.map": "/kampusvirefront/static/js/runtime-main.e71bdba7.js.map",
-    "static/css/2.0975cee1.chunk.css": "/kampusvirefront/static/css/2.0975cee1.chunk.css",
-    "static/js/2.4ec55851.chunk.js": "/kampusvirefront/static/js/2.4ec55851.chunk.js",
-    "static/js/2.4ec55851.chunk.js.map": "/kampusvirefront/static/js/2.4ec55851.chunk.js.map",
-    "index.html": "/kampusvirefront/index.html",
-    "static/css/2.0975cee1.chunk.css.map": "/kampusvirefront/static/css/2.0975cee1.chunk.css.map",
-    "static/css/main.0880029f.chunk.css.map": "/kampusvirefront/static/css/main.0880029f.chunk.css.map",
-    "static/js/2.4ec55851.chunk.js.LICENSE.txt": "/kampusvirefront/static/js/2.4ec55851.chunk.js.LICENSE.txt",
-    "static/media/common.css": "/kampusvirefront/static/media/Quentin.d23f1422.otf",
-    "static/media/Rectangle 100 (1).08078749.png": "/kampusvirefront/static/media/Rectangle 100 (1).08078749.png",
-    "static/media/amico.472c306e.png": "/kampusvirefront/static/media/amico.472c306e.png",
-    "static/media/user.c7098dda.jpg": "/kampusvirefront/static/media/user.c7098dda.jpg"
+    "main.css": "/static/css/main.67b31609.chunk.css",
+    "main.js": "/static/js/main.c2a69e55.chunk.js",
+    "main.js.map": "/static/js/main.c2a69e55.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.bb236305.js",
+    "runtime-main.js.map": "/static/js/runtime-main.bb236305.js.map",
+    "static/css/2.0975cee1.chunk.css": "/static/css/2.0975cee1.chunk.css",
+    "static/js/2.4ec55851.chunk.js": "/static/js/2.4ec55851.chunk.js",
+    "static/js/2.4ec55851.chunk.js.map": "/static/js/2.4ec55851.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.0975cee1.chunk.css.map": "/static/css/2.0975cee1.chunk.css.map",
+    "static/css/main.67b31609.chunk.css.map": "/static/css/main.67b31609.chunk.css.map",
+    "static/js/2.4ec55851.chunk.js.LICENSE.txt": "/static/js/2.4ec55851.chunk.js.LICENSE.txt",
+    "static/media/common.css": "/static/media/Quentin.d23f1422.otf",
+    "static/media/Rectangle 100 (1).08078749.png": "/static/media/Rectangle 100 (1).08078749.png",
+    "static/media/amico.472c306e.png": "/static/media/amico.472c306e.png",
+    "static/media/user.c7098dda.jpg": "/static/media/user.c7098dda.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.e71bdba7.js",
+    "static/js/runtime-main.bb236305.js",
     "static/css/2.0975cee1.chunk.css",
     "static/js/2.4ec55851.chunk.js",
-    "static/css/main.0880029f.chunk.css",
+    "static/css/main.67b31609.chunk.css",
     "static/js/main.c2a69e55.chunk.js"
   ]
 }
