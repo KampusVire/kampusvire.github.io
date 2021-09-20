@@ -71,7 +71,7 @@ const sendINR = async(fromAddress, privateKey, toAddress, amount)=>{
 // const oneGold = kit.connection.web3.utils.toWei('1', 'ether')
 // console.log(oneGold)
 
-export default{
+export {
     getNewMnemonic,
     getBalanceByAddress,
     retrieveAccountDetailsFromMnemonic,
