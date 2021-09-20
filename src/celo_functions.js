@@ -36,7 +36,7 @@ const decryptMnemonicWithPasscode = (mnemonicEncrypted, passphase)=>{
 const getBalanceByAddress = async (address)=>{
     let stabletoken = await kit.contracts.getStableToken();
     let cUSDBalance = await stabletoken.balanceOf(address);
-    console.log(cUSDBalance.toString());
+    // console.log(cUSDBalance.toString());
     return cUSDBalance;
 }
 
@@ -55,9 +55,11 @@ const sendINR = async(fromAddress, privateKey, toAddress, amount)=>{
     
         console.log('cUSD Transaction receipt: %o', cUSDReceipt)
     
-        let cUSDBalance = await stabletoken.balanceOf(fromAddress)
+        // let cUSDBalance = await stabletoken.balanceOf(fromAddress)
     
-        console.log(`Your new account cUSD balance: ${cUSDBalance.toString()}`)
+        // console.log(`Your new account cUSD balance: ${cUSDBalance.toString()}`)
+
+        return cUSDReceipt;
 }
 
 // console.log(getNewMnemonic());
