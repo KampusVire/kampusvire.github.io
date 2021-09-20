@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Quentin';
+    src: url(../components/font/Quentin.otf);
+}
+/* For Text Font */
+.nunito_sans{
+    font-family: 'Nunito Sans', sans-serif;
+}
+.open_sans{
+    font-family: 'Open Sans', sans-serif;
+}
+.rubik{
+    font-family: 'Rubik', sans-serif;
+}
+.quentin{
+    font-family: 'Quentin';
+}
+/* For Bacground Color */
+.bg-green{
+    background-color: #00A310 !important;
+}
+/* For Text Color */
+.txt-green{
+    color: #00A310 !important;;
+}
