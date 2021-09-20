@@ -115,6 +115,8 @@ async function updateQuantityCart(shop_id, product_id, quantity){
     localStorage.setItem("cart", JSON.stringify(shops));
 }
 
+
+
 export {
     getAllProductsFromCart,
     addToCart,
