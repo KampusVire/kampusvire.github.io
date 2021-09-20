@@ -58,7 +58,10 @@ const Home = () => {
                     name: response.data.data.baseProfileDetails.studentProfile.name,
                     department: response.data.data.baseProfileDetails.studentProfile.department,
                     year: response.data.data.baseProfileDetails.studentProfile.year,
+                    celoAddress : response.data.data.baseProfileDetails.celoAddress
                 }
+                localStorage.setItem('celoAddress', response.data.data.baseProfileDetails.celoAddress);
+                localStorage.setItem('celoEncryptedMnemonic', response.data.data.baseProfileDetails.celoEncryptedMnemonic);
                 setQrCodeData(JSON.stringify(jsonData));
             })
             .catch(function (error) {
