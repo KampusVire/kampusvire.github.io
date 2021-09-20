@@ -2,6 +2,7 @@ import React , {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import { ENDPOINT, GRAPHQL_ENDPOINT } from './config';
 import axios from 'axios';
+import { addToCart } from './shopping_function';
 
 const AllProducts = ()=>{
     const {shopid} = useParams();
@@ -76,6 +77,7 @@ const AllProducts = ()=>{
                     <h3>{product.price}</h3>
                     <h3>{product.objId}</h3>
                     <img src={ENDPOINT + "/media/"+product.picture}></img>
+                    <button onClick={()=>{addToCart(shopid, product.objId)}}>Add to cart</button>
                 </div>
             })}
         </>
