@@ -5,9 +5,7 @@ import axios from "axios";
 import { addToCart } from "./shopping_function";
 import "./components/canteen.css";
 import canteenImage from "./components/img/Rectangle 100 (1).png";
-import { ToastContainer } from "react-toastify";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 
 const AllProducts = (props) => {
   const { shopid } = useParams();
@@ -86,17 +84,10 @@ const AllProducts = (props) => {
         className="container-fluid sticky-top p-0 m-0 mb-4 w-100"
         style={{ height: "162px" }}
       >
-        <ToastContainer
-          position="top-right"
-          autoClose={1500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
         <img src={canteenDetails.current.picture ? ENDPOINT+"/media/"+canteenDetails.current.picture : canteenImage} className="img-fluid w-100 h-100" />
         <div className="container-fluid p-0 m-0 topBg text-light nunito_sans fs-1 d-flex flex-column-reverse align-items-center">
           <div className="position-absolute top-0 d-flex w-100 justify-content-between p-2 fs-4">
@@ -143,15 +134,7 @@ const AllProducts = (props) => {
                     className="btn bg-green fs-6 text-light mb-2 mx-2 fw-bold rubik rounded-pill d-block food"
                     onClick={() => {
                       addToCart(shopid, product.objId);
-                      toast.success("Added in cart", {
-                        position: "top-right",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                      });
+                      toast.success('Added to cart!');
                     }}
                   >
                     Order here
