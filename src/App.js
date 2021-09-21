@@ -9,6 +9,9 @@ import VirtualWallet from './virtualwallet';
 import CryptoWallet from './cryptowallet.';
 import QRScanPay from './qrscanpay';
 import OrderList from './orderList';
+import BorrowMoney from './borrowMoney';
+import BorrowedToLog from './borrowedToLog';
+import BorrowedFromLog from './borrowedFromLog';
 
 function App() {
   var apiToken = localStorage.getItem('token');
@@ -36,6 +39,9 @@ function App() {
       <Route path="/cryptowallet" exact component={CryptoWallet} />
       <Route path="/qrpay" exact component={QRScanPay} />
       <Route path="/orders" exact component={OrderList} />
+      <Route path="/borrowmoney" exact component={BorrowMoney} />
+      <Route path="/borrowedtolog" exact component={BorrowedToLog} />
+      <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
       <Redirect to="/"/> 
     </Switch>
 
