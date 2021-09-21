@@ -5,7 +5,7 @@ import AllShops from './shops';
 import AllProducts from './products';
 import Cart from './cart';
 import Home from './home';
-import virtualWallet from './virtualwallet';
+import VirtualWallet from './virtualwallet';
 import CryptoWallet from './cryptowallet.';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
       <Route path="/shops" exact component={AllShops} />
       <Route path="/shop/:shopid" exact component={AllProducts} />
       <Route path="/cart" exact component={Cart} />
-      <Route path="/virtualwallet" exact component={virtualWallet} />
+      <Route path="/virtualwallet" exact component={VirtualWallet} />
       <Route path="/cryptowallet" exact component={CryptoWallet} />
       <Redirect to="/"/> 
     </Switch>
