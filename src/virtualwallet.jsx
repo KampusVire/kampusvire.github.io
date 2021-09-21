@@ -75,22 +75,22 @@ const VirtualWallet = () => {
             position="top-right"
             reverseOrder={false}
         />
-        <h1 class="text-center header my-5 py-3">Kampus Vire</h1>
-        <h1 class="text-center rubik fw-bold mt-5 pt-5 mb-3">
+        <h1 className="text-center header my-5 py-3">Kampus Vire</h1>
+        <h1 className="text-center rubik fw-bold mt-5 pt-5 mb-3">
             Virtual Wallet
-            <i class="fas fa-coins text-warning"></i>
+            <i className="fas fa-coins text-warning"></i>
         </h1>
 
-        <div class="container bg-light d-flex flex-column align-items-center justify-content-center round border mt-5" style={{height: "15rem" , width: "90%"}}>
-            <h1 class="nunito_sans text-uppercase text-center">Balance</h1>
-            <h2 class="Rubik txt-green fw-bold text-uppercase text-center">&#8377; {balance}</h2>    
+        <div className="container bg-light d-flex flex-column align-items-center justify-content-center round border mt-5" style={{height: "15rem" , width: "90%"}}>
+            <h1 className="nunito_sans text-uppercase text-center">Balance</h1>
+            <h2 className="Rubik txt-green fw-bold text-uppercase text-center">&#8377; {balance}</h2>    
         </div>
-        <div class="container px-4 my-5">
-            <input type="number" class="form-control bg-light text-muted open_sans text-uppercase fst-italic fs-6 py-2"
+        <div className="container px-4 my-5">
+            <input type="number" className="form-control bg-light text-muted open_sans text-uppercase fst-italic fs-6 py-2"
                 placeholder="Amount to Recharge" onChange={(e)=>amount=e.target.value} />
         </div>
-        <div class="d-grid gap-2 d-md-block container  mt-5">
-            <button class="btn btn-success bg-green nunito_sans fw-bold" type="button" onClick={addBalance}>Add Money</button>
+        <div className="d-grid gap-2 d-md-block container  mt-5">
+            <button className="btn btn-success bg-green nunito_sans fw-bold" type="button" onClick={addBalance}>Add Money</button>
         </div>
 
         </>

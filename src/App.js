@@ -15,6 +15,8 @@ import BorrowedFromLog from './borrowedFromLog';
 
 function App() {
   var apiToken = localStorage.getItem('token');
+  var isShop = localStorage.getItem('isShop');
+  console.log(isShop);
   if(apiToken==null){
     return (
       <>

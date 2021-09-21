@@ -428,44 +428,44 @@ const Cart = ()=>{
             <span></span>
           )} */}
   
-          <div class="buttonnnns">
-            {/* <button class="button">Add More</button> */}
-            <button class="buttonnnn buttonnnn--active" data-bs-toggle="modal" data-bs-target="#sendCelo">
+          <div className="buttonnnns">
+            {/* <button className="button">Add More</button> */}
+            <button className="buttonnnn buttonnnn--active" data-bs-toggle="modal" data-bs-target="#sendCelo">
               checkout
             </button>
           </div>
         </div>
 
-        <div class="modal fade" id="sendCelo" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header pb-2 bg-light">
-                    <h3 class=" nunito_sans m-0 fw-bold">Choose Preferred Options </h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div className="modal fade" id="sendCelo" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+                <div className="modal-header pb-2 bg-light">
+                    <h3 className=" nunito_sans m-0 fw-bold">Choose Preferred Options </h3>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body pt-0">
-                    <label class="form-label mt-3">Payment Mode</label>
-                    <select onChange={(data)=>paymentType=data.target.value} class="form-select" defaultValue="cash">
+                <div className="modal-body pt-0">
+                    <label className="form-label mt-3">Payment Mode</label>
+                    <select onChange={(data)=>paymentType=data.target.value} className="form-select" defaultValue="cash">
                         <option value="cash" >Cash</option>
                         <option value="virtualwallet">Virtual Wallet</option>
                         <option value="online">Online</option>
                         <option value="crypto">Crypto</option>
                     </select>
-                    <label class="form-label mt-3">Do you place this order in advance ?</label>
+                    <label className="form-label mt-3">Do you place this order in advance ?</label>
 
-                    <select value={isPreorder ? 1 : 0} class="form-select" onChange={(data)=>setIsPreorder(data.target.value==1)}>
+                    <select value={isPreorder ? 1 : 0} className="form-select" onChange={(data)=>setIsPreorder(data.target.value==1)}>
                         <option value={1} >Yes</option>
                         <option value={0} >No</option>
                     </select>
 
-                    {isPreorder ? <>                    <label class="form-label mt-3">Choose date & time of order</label>
-<input class="form-control" type="datetime-local"  onChange={(data)=>scheduledTime = data.target.value.toString()}/></> :  <span></span>}
+                    {isPreorder ? <>                    <label className="form-label mt-3">Choose date & time of order</label>
+<input className="form-control" type="datetime-local"  onChange={(data)=>scheduledTime = data.target.value.toString()}/></> :  <span></span>}
                 </div>
-                <div class="modal-footer border-0">
-                    <div class="d-grid gap-2 d-md-block container">
+                <div className="modal-footer border-0">
+                    <div className="d-grid gap-2 d-md-block container">
 
-                        <button type="button" class="btn bg-green text-light rubik" onClick={checkout} >Pay & Place Order</button>
-                        <button type="button" class="btn bg-white txt-green rubik" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn bg-green text-light rubik" onClick={checkout} >Pay & Place Order</button>
+                        <button type="button" className="btn bg-white txt-green rubik" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
