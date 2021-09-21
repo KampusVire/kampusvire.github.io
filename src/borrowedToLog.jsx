@@ -3,6 +3,7 @@ import { GRAPHQL_ENDPOINT } from "./config";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import toast, { Toaster } from 'react-hot-toast';
 
 const BorrowedToLog = () => {
   const [log, setLog] = useState([]);
@@ -62,6 +63,15 @@ const BorrowedToLog = () => {
   };
 
   const makePaid = async (id) => {
+    toast('Wait a bit!',
+    {
+      icon: '👏',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    })
     const token = localStorage.getItem("token");
     var data = JSON.stringify({
       query: `mutation($borrowId : String!){
@@ -87,10 +97,12 @@ const BorrowedToLog = () => {
     var response = await axios(config);
     if (response.data == undefined) {
       alert("Failed due to network issue");
+      toast.error('Failed due to network issue');
       return;
     }
 
     console.log(response);
+    toast.success('Successfully Changed');
   };
 
   useEffect(() => {
@@ -101,8 +113,13 @@ const BorrowedToLog = () => {
 
   return (
     <>
+
       <div>
         <Navbar />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+        />
         <h1 className="text-center open_sans fw-bold txt-green  mb-3">
           Borrowed To
         </h1>
