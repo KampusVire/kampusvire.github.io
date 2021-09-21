@@ -3,6 +3,7 @@ import { ENDPOINT } from './config';
 import axios from "axios";
 import FormData from 'form-data';
 import { getNewMnemonic, retrieveAccountDetailsFromMnemonic, encryptMnemonicWithPasscode } from './celo_functions';
+import toast, { Toaster } from "react-hot-toast";
 
 const RegisterUser = (props, context)=>{
     const [step, setStep] = useState(1);
@@ -39,6 +40,8 @@ const RegisterUser = (props, context)=>{
 
 
 async function requestOTP(){
+        toast.success('Requesting OTP!')
+
         // setIsLoading(true);
         var data = new FormData();
         data.append('phoneno', registerData.current["phoneno"]);
@@ -51,16 +54,19 @@ async function requestOTP(){
         axios(config)
         .then(function (response) {
             if(response.data.success){
+                toast.success('OTP Sent')
                 registerData.current["otpId"] =  response.data.otp_id;
                 console.log(registerData.current["otpId"]);
                 handleReset();
                 setStep(2);
                 // setError('');
             }else{
+                toast.error("Failed")
                 // setError(response.data.error);
             }
         })
         .catch(function (error) {
+            toast.error("Failed to request.")
             // setError("Failed to request");
         });
         // setIsLoading(false);
@@ -68,6 +74,10 @@ async function requestOTP(){
     
 
  async function verifyOTP(){
+        toast('Wait a bit', {
+            icon: '👏',
+        });
+      
         // setIsLoading(true);
         var data = new FormData();
         data.append('otp_id', registerData.current["otpId"]);
@@ -86,11 +96,13 @@ async function requestOTP(){
         .then(function (response) {
             console.log(response);
             if(response.data.success){
+                toast.success('OTP Verified')
                 registerData.current["otpToken"] = response.data.otp_token;
                 // setError('');
                 handleReset();
                 setStep(3);
             }else{
+                toast.error("Failed")
                 // setError(response.data.error);
             }
         })
@@ -101,6 +113,7 @@ async function requestOTP(){
     }
 
     function registerUser(){
+        toast.success('Registering...')
         var data = new FormData();
 
         data.append('otp_id', registerData.current["otpId"]);
@@ -125,6 +138,7 @@ async function requestOTP(){
         .then(function (response) {
             console.log(response);
             if(response.data.success){
+                toast.success('Registered')
                 // setError('');
                 localStorage.setItem('token', response.data.token);
                 window.location.href = '/';
@@ -133,12 +147,17 @@ async function requestOTP(){
             }
         })
         .catch(function (error) {
+            toast.error("Failed to register.")
             // setError("Failed to request");
         });
     }
 
     return (
         <>
+        <Toaster
+        position="top-right"
+        reverseOrder={false}
+        />
         {step === 1 ? (
             <div>
                 <h1 className="text-center header">Kampus Vire</h1>
@@ -167,10 +186,10 @@ async function requestOTP(){
                         <label for="phoneNumber" className="form-label m-0 nunito_sans fs-4">Enter The OTP</label><br />
                         <small className="text-muted open_sans">Please enter the OTP sent</small>
                         <input className="form-control mt-4 fst-italic" id="otp" defaultValue="" onChange={(event) => { registerData.current["otp"] = event.target.value }} />
-                        <p className="fs-6 text-center my-3 rubik">
+                        {/* <p className="fs-6 text-center my-3 rubik">
                             Didn’t recieve OTP?<b className="text-primary">Resend</b> in  <b>60s</b> <br />
                             <a href="#" className="text-decoration-none rubik">Change phone Number</a>
-                        </p>
+                        </p> */}
                     </div>
                     <div className="d-grid gap-2 d-md-block container button">
                         <button className="btn bg-green text-light" onClick={() => { verifyOTP() }}>Continue</button>
