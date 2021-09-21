@@ -12,7 +12,7 @@ const CryptoWallet = () => {
     const [receiverCeloAddress, setReceiverCeloAddress] = useState("");
 
 
-    useEffect( async() => {
+    useEffect( () => {
         refreshBalance();
     },[])
 

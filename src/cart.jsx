@@ -1,7 +1,11 @@
 import React , {useEffect, useState} from 'react';
 import { removeFromCart, updateQuantityCart, getAllProductsFromCart} from './shopping_function';
-import { GRAPHQL_ENDPOINT } from './config';
+import { GRAPHQL_ENDPOINT, ENDPOINT } from './config';
 import axios from 'axios';
+import useRazorpay,  { RazorpayOptions } from "react-razorpay";
+import {getBalanceByAddress, sendINR, decryptMnemonicWithPasscode, retrieveAccountDetailsFromMnemonic} from './celo_functions';
+import BigNumber from "bignumber.js";
+
 
 const Cart = ()=>{
 
@@ -9,6 +13,7 @@ const Cart = ()=>{
     const [products, setProducts] = useState([]);
     const [isPreorder, setIsPreorder] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
+    const Razorpay = useRazorpay();
     var paymentType = "cash";
     var scheduledTime = (new Date()).toISOString();
 
@@ -83,6 +88,8 @@ const Cart = ()=>{
                   paymentType
                   transactionIds
                   redirectPaymentPage
+                  prices
+                  cryptoAddresses
                 }
               }`,
                 variables: dataToBeSubmit
@@ -99,12 +106,171 @@ const Cart = ()=>{
             };
         
             var response = await axios(config);
-            console.log(response);
+            console.log(response.data.data.placeOrder);
             if (response.data == undefined){
                 return {};
             };
-            console.log(response.data);
 
+
+            if(response.data.data.placeOrder.success){
+                console.log(response.data.data.placeOrder.paymentType)
+                if(response.data.data.placeOrder.paymentType === "online"){
+                    const options = {
+                        key: "rzp_test_YYYJHE9VNyqobl", // Enter the Key ID generated from the Dashboard
+                        amount: response.data.data.placeOrder.totalPrice*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        currency: "INR",
+                        name: "",
+                        description: "Test Transaction",
+                        // image: "https://example.com/your_logo",
+                        handler: function (response) {
+                            window.location.href = `${ENDPOINT}/api/verify/orderpayment/${response.razorpay_payment_id}/`
+                        },
+                        prefill: {
+                          name: "",
+                          contact: "",
+                        },
+                        notes: {
+                            "TYPE" : "ORDERPAYMENT",
+                            "TRANSACTIONS" : JSON.stringify(response.data.data.placeOrder.transactionIds)
+                        },
+                        theme: {
+                          color: "#3399cc",
+                        },
+                      };
+                    
+                      const rzp1 = new Razorpay(options);
+                      rzp1.on("payment.failed", function (response) {
+                        alert(response.error.description);
+                      });
+                      rzp1.open();
+                }
+
+                if(response.data.data.placeOrder.paymentType === "cash"){
+                    console.log("Successful payment")
+                }
+
+                if(response.data.data.placeOrder.paymentType === "virtualwallet"){
+                    console.log("success")
+                    var data = JSON.stringify({
+                        query: `mutation($transactionIds : [String]!, $transactionHash : String){
+                        processTransaction(transactionIds : $transactionIds, transactionHash : $transactionHash){
+                          totalTransactions
+                          successfulTransactions
+                          details
+                        }
+                      }`,
+                        variables: {"transactionIds": response.data.data.placeOrder.transactionIds}
+                      });
+                      var config = {
+                        method: 'post',
+                        url: GRAPHQL_ENDPOINT,
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization' : `Bearer ${token}`
+                        },
+                        data : data
+                    };
+                
+                    var response = await axios(config);
+                    // console.log(response)
+                    if (response.data == undefined){
+                        return {};
+                    };
+                    if(response.data.data.processTransaction.totalTransactions != response.data.data.processTransaction.successfulTransactions){
+                        response.data.data.processTransaction.details.forEach((trx)=>{
+                            if(!trx["success"]){
+                                console.log("hit")
+                                alert(trx["error"])
+                            }
+                        })
+                    }else{
+                        console.log("Successful payment")
+                    }
+
+                }
+
+                if(response.data.data.placeOrder.paymentType === "crypto"){
+                    console.log(response.data.data.placeOrder.prices)
+                    var passcode = "";
+                    var decryptedMnemonic;
+                    let trasactionHashes = [];
+                    while (passcode == "" || passcode == null) {
+                        passcode = prompt("Enter your passcode ")
+                        try{
+                            if(passcode != ""){
+                                decryptedMnemonic = await decryptMnemonicWithPasscode(localStorage.getItem("celoEncryptedMnemonic"),passcode);
+                                console.log(decryptedMnemonic);
+                            }
+                        }catch{
+                            console.log("Failed");
+                            console.log(passcode);
+                            passcode = "";
+                        }
+                    } 
+                    try {
+                        const accountDetails = await retrieveAccountDetailsFromMnemonic(decryptedMnemonic);
+                        // TODO Check total price with balance
+                        for (let i = 0; i < response.data.data.placeOrder.prices.length; i++) {
+                            const price = response.data.data.placeOrder.prices[i];
+                            const address = response.data.data.placeOrder.cryptoAddresses[i];
+                            var transactionReceipt = await sendINR(accountDetails.address,accountDetails.privateKey, address, price);
+                            console.log(JSON.stringify(transactionReceipt));
+                            if(!transactionReceipt.status){
+                                alert("Transaction Failed");
+                                break;
+                            }
+                            trasactionHashes.push(transactionReceipt.transactionHash)
+                        }
+
+
+                        console.log();
+
+                        var data = JSON.stringify({
+                            query: `mutation($transactionIds : [String]!, $transactionHash : [String]!){
+                            processTransaction(transactionIds : $transactionIds, transactionHash : $transactionHash){
+                              totalTransactions
+                              successfulTransactions
+                              details
+                            }
+                          }`,
+                            variables: {
+                                "transactionIds": response.data.data.placeOrder.transactionIds,
+                                "transactionHash" : trasactionHashes
+                            }
+                          });
+                          var config = {
+                            method: 'post',
+                            url: GRAPHQL_ENDPOINT,
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'Authorization' : `Bearer ${token}`
+                            },
+                            data : data
+                        };
+
+                        // console.log(response);
+                    
+                        var response = await axios(config);
+                        console.log(response)
+                        if (response.data == undefined){
+                            return {};
+                        };
+                        if(response.data.data.processTransaction.totalTransactions != response.data.data.processTransaction.successfulTransactions){
+                            response.data.data.processTransaction.details.forEach((trx)=>{
+                                if(!trx["success"]){
+                                    console.log("hit")
+                                    alert(trx["error"])
+                                }
+                            })
+                        }else{
+                            console.log("Successful payment")
+                        }
+
+                    } catch (error) {
+                        passcode = ""
+                    }
+                }
+            }
 
 
     }
