@@ -24,15 +24,15 @@ const Home = () => {
                 celoEncryptedMnemonic
                 celoAddress
                 studentProfile{
-                id
-                objId
-                name
-                collegeName
-                department
-                year
-                rollNo
-                emailId
-                phoneNo
+                  objId
+                  name
+                  collegeName
+                  department
+                  year
+                }
+                shopProfile{
+                  objId
+                  name
                 }
             }
             }`,
@@ -53,7 +53,11 @@ const Home = () => {
     axios(config)
       .then(function (response) {
         setReceivedUserData(true);
-        jsonData = {
+        jsonData = response.data.data.baseProfileDetails.isShop ? {
+          id: response.data.data.baseProfileDetails.objId,
+          name : response.data.data.baseProfileDetails.shopProfile.name,
+          celoAddress: response.data.data.baseProfileDetails.celoAddress,
+        } :  {
           id: response.data.data.baseProfileDetails.objId,
           name: response.data.data.baseProfileDetails.studentProfile.name,
           department:
@@ -61,6 +65,8 @@ const Home = () => {
           year: response.data.data.baseProfileDetails.studentProfile.year,
           celoAddress: response.data.data.baseProfileDetails.celoAddress,
         };
+
+
         localStorage.setItem(
           "celoAddress",
           response.data.data.baseProfileDetails.celoAddress
