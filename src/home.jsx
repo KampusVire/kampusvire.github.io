@@ -84,7 +84,7 @@ const Home = () => {
           <div className="fs-6 open_sans text-center mx-5 my-2">
             {qrCodeData != "-1" ? (
               <div>
-                Hi {JSON.parse(qrCodeData).name} Simply scan this QR code to
+                Hi <b>{JSON.parse(qrCodeData).name}</b> Simply scan this QR code to
                 recieve desired payment
               </div>
             ) : (

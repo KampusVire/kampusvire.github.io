@@ -87,9 +87,9 @@ const VirtualWallet = () => {
         </div>
         <div class="container px-4 my-5">
             <input type="number" class="form-control bg-light text-muted open_sans text-uppercase fst-italic fs-6 py-2"
-                placeholder="Amount to Pay" onChange={(e)=>amount=e.target.value} />
+                placeholder="Amount to Recharge" onChange={(e)=>amount=e.target.value} />
         </div>
-        <div class="d-grid gap-2 d-md-block container button mt-5">
+        <div class="d-grid gap-2 d-md-block container  mt-5">
             <button class="btn btn-success bg-green nunito_sans fw-bold" type="button" onClick={addBalance}>Add Money</button>
         </div>
 

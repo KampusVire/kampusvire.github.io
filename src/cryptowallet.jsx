@@ -1,6 +1,7 @@
 import React , {useEffect, useState} from "react";
 import {getBalanceByAddress, sendINR, decryptMnemonicWithPasscode, retrieveAccountDetailsFromMnemonic} from './celo_functions';
 import BigNumber from "bignumber.js";
+
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -107,7 +108,7 @@ const CryptoWallet = () => {
             value={celoAddress} readOnly={true} />
     </div>
 
-    <div class="d-grid gap-2 d-md-block container button mt-5">
+    <div class="d-grid gap-2 d-md-block container  mt-5">
         <button class="btn btn-success bg-green nunito_sans fw-bold text-uppercase" data-bs-toggle="modal" data-bs-target="#sendCelo" type="button">
             Send CELO
         </button>

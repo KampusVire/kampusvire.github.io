@@ -128,12 +128,12 @@ header p {
   box-shadow: 1.8px 2px 6px 0px #d6d6d6;
   border-radius: 1.2vw;
 }
-.close-button {
+.close-buttonnnn {
   position: absolute;
   top: 3%;
   right: 3%;
 }
-.close-button button {
+.close-buttonnnn button {
   font-size: 2.8vh;
   padding: 0 0.7vh;
   background-color: transparent;
@@ -163,7 +163,7 @@ header p {
   margin-top: 1vh;
   font-size: 2vh;
 }
-.item-qnty-button {
+.item-qnty-buttonnnn {
   height: 6vw;
   width: 8vw;
   display: flex;
@@ -181,10 +181,10 @@ header p {
   justify-content: center;
   align-items: center;
 }
-.add-button {
+.add-buttonnnn {
   border-radius: 0 1.2vw 1.2vw 0;
 }
-.subtract-button {
+.subtract-buttonnnn {
   border-radius: 1.2vw 0 0 1.2vw;
 }
 .prep-time {
@@ -225,7 +225,7 @@ header p {
   margin-bottom: 2vh;
 }
 
-.buttons {
+.buttonnnns {
   display: flex;
   flex-direction: column;
   gap: 2vh;
@@ -233,7 +233,7 @@ header p {
   padding: 2vw;
 }
 
-.button {
+.buttonnnn {
   border: 3px solid #00a310;
   background-color: #fff;
   font-size: 1.8vh;
@@ -247,7 +247,7 @@ header p {
   border-radius: 1vw;
 }
 
-.button--active {
+.buttonnnn--active {
   color: #fff;
   background-color: #00a310;
 }

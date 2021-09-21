@@ -319,7 +319,7 @@ const Cart = ()=>{
                     <p className="item-shop">{product.shop}</p>
                     <div className="item-qnty">
                       <button
-                        className="subtract-button item-qnty-button"
+                        className="subtract-buttonnnn item-qnty-buttonnnn"
                         onClick={() => {
                           decrementProductQuantity(index);
                         }}
@@ -328,14 +328,14 @@ const Cart = ()=>{
                       </button>
                       <p>{product.quantity}</p>
                       <button
-                        className="add-button item-qnty-button"
+                        className="add-buttonnnn item-qnty-buttonnnn"
                         onClick={() => {
                           incrementProductQuantity(index);
                         }}
                       >
                         +
                       </button>
-                      <div className="close-button">
+                      <div className="close-buttonnnn">
                         <button
                           onClick={() => {
                             removeProduct(index);
@@ -428,9 +428,9 @@ const Cart = ()=>{
             <span></span>
           )} */}
   
-          <div class="buttons">
+          <div class="buttonnnns">
             {/* <button class="button">Add More</button> */}
-            <button class="button button--active" data-bs-toggle="modal" data-bs-target="#sendCelo">
+            <button class="buttonnnn buttonnnn--active" data-bs-toggle="modal" data-bs-target="#sendCelo">
               checkout
             </button>
           </div>
