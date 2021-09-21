@@ -141,16 +141,6 @@ const Home = () => {
                   <QRCode value={qrCodeData} />
                 </div>
               </div>
-              <div className="modal-footer">
-                <div className="d-grid gap-2 d-md-block container">
-                  <Link
-                    className="btn btn-success bg-green nunito_sans fw-bold"
-                    to="/qrpay"
-                  >
-                    Scan And Pay
-                  </Link>
-                </div>
-              </div>
             </div>
           </div>
         </div>

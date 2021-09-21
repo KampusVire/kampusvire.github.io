@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ENDPOINT, GRAPHQL_ENDPOINT } from "./config";
 import axios from "axios";
@@ -13,18 +13,24 @@ const AllProducts = (props) => {
   const { shopid } = useParams();
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const canteenDetails = useRef({});
   const token = localStorage.getItem("token");
 
   if (!loaded) {
     var data = JSON.stringify({
-      query: `query($shopId : Int!){
-            allProducts(shopId : $shopId){
-              pageInfo{
-                startCursor
-                endCursor
-                hasPreviousPage
-                hasNextPage
+      query: `query($shopId : Int!, $shopId2 : Float!){
+            allShops(id : $shopId2){
+              edges{
+                node{
+                  name
+                  picture
+                  closeAt
+                  longitudeCoordinate
+                  latitudeCoordinate
+                }
               }
+            }
+            allProducts(shopId : $shopId){
               edges{
                 cursor
                 node{
@@ -38,7 +44,7 @@ const AllProducts = (props) => {
               }
             }
           }`,
-      variables: { shopId: shopid },
+      variables: { shopId: shopid, shopId2 : shopid },
     });
 
     var config = {
@@ -53,6 +59,7 @@ const AllProducts = (props) => {
 
     axios(config)
       .then(function (response) {
+        canteenDetails.current = response.data.data.allShops.edges[0].node; 
         setLoaded(true);
         let tmpData = [];
         response.data.data.allProducts.edges.forEach(function (edge) {
@@ -66,6 +73,7 @@ const AllProducts = (props) => {
           console.log(tmpData);
         });
         setProducts([...products, ...tmpData]);
+        console.log(canteenDetails.current);
       })
       .catch(function (error) {
         console.log(error);
@@ -89,23 +97,23 @@ const AllProducts = (props) => {
           draggable
           pauseOnHover
         />
-        <img src={canteenImage} className="img-fluid w-100 h-100" />
+        <img src={canteenDetails.current.picture ? ENDPOINT+"/media/"+canteenDetails.current.picture : canteenImage} className="img-fluid w-100 h-100" />
         <div className="container-fluid p-0 m-0 topBg text-light nunito_sans fs-1 d-flex flex-column-reverse align-items-center">
           <div className="position-absolute top-0 d-flex w-100 justify-content-between p-2 fs-4">
             <a  onClick={()=>props.history.goBack()}><i className="fas fa-arrow-left"></i></a>
             <h3 className="fw-bold nunito_sans text-uppercase text-center d-inline pt-2">
               menu
             </h3>
-            <i className="fas fa-map-marker-alt text-warning"></i>
+            <a target="__blank" href={"https://www.google.com/maps/search/?api=1&query="+canteenDetails.current.latitudeCoordinate+","+canteenDetails.current.longitudeCoordinate}><i className="fas fa-map-marker-alt text-warning"></i></a>
           </div>
           <div
             className="d-flex justify-content-between align-items-center w-50 mb-1"
             style={{ fontSize: "1rem" }}
           >
-            <small className="open_sans">Closes in 8pm</small>
-            <small className="open_sans fw-bold text-danger">Busy</small>
+            <small className="open_sans">Closes in {canteenDetails.current.closeAt ?? ".."}</small>
+            {/* <small className="open_sans fw-bold text-danger">Busy</small> */}
           </div>
-          <div className="text-center w-75 lh-1">Canteen 1</div>
+          <div className="text-center w-75 lh-1">{canteenDetails.current.name ?? "..."}</div>
         </div>
       </div>
 

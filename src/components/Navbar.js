@@ -2,6 +2,7 @@ import React from 'react'
 import './navMenu.css'
 import './common.css'
 import pic from './img/user.jpg'
+import icon from './img/icon.png'
 
 
 export default function Navbar() {
@@ -32,6 +33,9 @@ export default function Navbar() {
                 <input type="checkbox" className="toggler" id="checkBox" onClick={show} />
                 <div className="hamburger">
                     <div></div>
+                </div>
+                <div class="position-absolute end-50 w-25">
+                    <img src={icon} class="img-fluid" />
                 </div>
                 <i className="fas fa-search mx-3 text-light fs-3" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
             </nav>

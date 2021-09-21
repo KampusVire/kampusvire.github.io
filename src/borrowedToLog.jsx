@@ -2,6 +2,7 @@ import axios from "axios";
 import { GRAPHQL_ENDPOINT } from "./config";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 const BorrowedToLog = () => {
   const [log, setLog] = useState([]);
@@ -60,18 +61,18 @@ const BorrowedToLog = () => {
     setLog(response.data.data.borrowDetails.edges);
   };
 
-  const makePaid = async (id)=>{
+  const makePaid = async (id) => {
     const token = localStorage.getItem("token");
     var data = JSON.stringify({
-        query: `mutation($borrowId : String!){
+      query: `mutation($borrowId : String!){
         borrowPaid(borrowId : $borrowId){
           success
           message
           error
         }
       }`,
-        variables: {"borrowId":id}
-      });
+      variables: { borrowId: id },
+    });
 
     var config = {
       method: "post",
@@ -90,51 +91,92 @@ const BorrowedToLog = () => {
     }
 
     console.log(response);
-  }
+  };
+
+  useEffect(() => {
+    if (log != []) {
+      loadLogs();
+    }
+  }, []);
 
   return (
     <>
       <div>
-        <h1>Borrowed To log</h1>
-        <button onClick={loadLogs}>Load</button>
-        {log.map((snbrw) => {
-          return (
-            <>
-              <div key={snbrw["node"]["objId"]}>
-                <p>Amount : {snbrw["node"]["amount"]}</p>
-                <p>Description : {snbrw["node"]["description"]}</p>
-                <p>Borrowed On : {snbrw["node"]["borrowedOn"]}</p>
-                {snbrw["node"]["receiver"]["isShop"] ? (
-                  <>
-                    <div>
-                      <p>
-                        Name : {snbrw["node"]["receiver"]["shopProfile"]["name"]}
-                      </p>
-                      <p>
-                        Phoneno : {snbrw["node"]["receiver"]["shopProfile"]["phoneNo"]}
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <p>
-                        Name :{snbrw["node"]["receiver"]["studentProfile"]["name"]}
-                      </p>
-                      <p>
-                        Phoneno : {snbrw["node"]["receiver"]["studentProfile"]["phoneNo"]}
-                      </p>
-                      <p>
-                        Details : {snbrw["node"]["receiver"]["studentProfile"]["department"]} {snbrw["node"]["receiver"]["studentProfile"]["year"]} {snbrw["node"]["receiver"]["studentProfile"]["rollNo"]}
-                      </p>
-                      <button onClick={()=>{makePaid(snbrw["node"]["objId"])}}>Make aid</button>
-                    </div>
-                  </>
-                )}
+        <Navbar />
+        <h1 className="text-center open_sans fw-bold txt-green  mb-3">
+          Borrowed To
+        </h1>
+        <div className="container mt-3">
+          {log.map((snbrw) => {
+            return (
+              <>
+              <div className="p-3 border rounded bg-light my-2" key={snbrw["node"]["objId"]}>
+              {snbrw["node"]["receiver"]["isShop"] ? (
+                    <>
+                      <div>
+                        <div className="row">
+                          <div className="col">Name : </div>
+                          <div className="col">{snbrw["node"]["receiver"]["shopProfile"]["name"]}</div>
+                        </div>
+                        <div className="row">
+                          <div className="col">Phoneno : </div>
+                          <div className="col">{snbrw["node"]["receiver"]["shopProfile"]["phoneNo"]}</div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                      <div className="row">
+                        <div className="col">Name : </div>
+                        <div className="col">{snbrw["node"]["receiver"]["studentProfile"]["name"]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col">Phoneno : </div>
+                        <div className="col">{snbrw["node"]["receiver"]["studentProfile"]["phoneNo"]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col">Department : </div>
+                        <div className="col">{snbrw["node"]["receiver"]["studentProfile"]["department"]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col">Year : </div>
+                        <div className="col">{snbrw["node"]["receiver"]["studentProfile"]["year"]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col">Roll no : </div>
+                        <div className="col">{snbrw["node"]["receiver"]["studentProfile"]["rollNo"]}</div>
+                      </div>
+                      </div>
+                    </>
+                  )}
+
+
+                <div className="row text-danger border-top">
+                  <div className="col fw-bold text-uppercase ">Amount : </div>
+                  <div className="col ">&#8377; {snbrw["node"]["amount"]}</div>
+                </div>
+                <div className="row text-danger border-bottom">
+                  <div className="col fw-bold text-uppercase ">Reason : </div>
+                  <div className="col ">{snbrw["node"]["description"]}</div>
+                </div>
+                <div className="row text-danger border-bottom">
+                  <div className="col fw-bold text-uppercase ">Borrowed on : </div>
+                  <div className="col ">{snbrw["node"]["borrowedOn"]}</div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col">
+                    <button type="button" className="btn bg-green text-light rubik w-75" onClick={()=>{makePaid(snbrw["node"]["objId"])}}>Make Paid</button>
+                  </div>
+                  <div className="col">
+                    <a type="button" className="btn btn-outline-success rubik w-75" href={snbrw["node"]["receiver"]["isShop"] ? "tel:"+ snbrw["node"]["receiver"]["shopProfile"]["phoneNo"] : "tel:"+ snbrw["node"]["receiver"]["studentProfile"]["phoneNo"] }>Call</a>
+                  </div>
+                </div>
               </div>
-            </>
-          );
-        })}
+              </>
+            );
+          })}
+        </div>
       </div>
     </>
   );
