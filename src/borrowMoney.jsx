@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import QrReader from "react-qr-scanner";
 import icon from "./components/img/icon.png"
+import Navbar from "./components/Navbar";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const BorrowMoney = ()=>{
@@ -12,7 +14,22 @@ const BorrowMoney = ()=>{
     let description = "Borrowing"
 
     const borrowMoney = async()=>{
-        const token = localStorage.getItem('token');
+        if(amount == 0){
+            toast.error("Amount cannot be 0")
+            return;
+        }
+
+        toast('Wait a bit!',
+        {
+          icon: '👏',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );        
+      const token = localStorage.getItem('token');
         var data = JSON.stringify({
             query: `mutation($userIdTo : String!, $amount : Float!, $description : String!){
             borrowInitiate(userIdTo : $userIdTo, amount : $amount, description : $description){
@@ -37,37 +54,39 @@ const BorrowMoney = ()=>{
     
         var response = await axios(config);
         if (response.data == undefined){
-            alert("Failed due to network issue")
+            toast.error("Failed due to network issue")
             return {};
         };
-        console.log(response);
-
+        toast.success("Successfully Borrowed")
     }
 
     return (<>
+    <Navbar/>
+    <Toaster
+        position="top-right"
+        reverseOrder={false}
+    />
     <div>{
           details == "-1" ? (
                 <>
-                <h4>Scan the QR code of the user from whom you want to borrow</h4>
-                    <QrReader
-                delay={200}
-                style={{width: '100%', height: '100%'}}
-                onError={() => {}}
-                onScan={(data) => {
-                    if (data){
-                        setDetails(JSON.parse(data["text"]))
-                    }
-                }}
+                <div className="container mb-5 text-center mt-5">
+                    <h5 className="mb-5">Scan the QR code of the user from whom you want to borrow</h5>
+                        <QrReader
+                    delay={200}
+                    style={{width: '100%', height: '100%'}}
+                    onError={() => {}}
+                    onScan={(data) => {
+                        if (data){
+                            setDetails(JSON.parse(data["text"]))
+                        }
+                    }}
                 />
+                </div>
+
                 </>
 
             ) : (
                 <div>
-                <div className="container mb-3 bg-green px-4 py-2 mb-5">
-                    <div className="d-flex justify-content-center align-items-center " style={{width: "6rem"}}>
-                        <img src={icon} className="img-fluid"/>
-                    </div>
-                </div>
                 <h1 className="text-center open_sans fw-bold txt-green">Borrow Money</h1>
                 <div className="container w-50 mt-5">
                     <p>Name : {details["name"]}</p>
