@@ -42,9 +42,10 @@ function App() {
       <Route path="/qrpay" exact component={QRScanPay} />
       <Route path="/orders" exact component={OrderList} />
       <Route path="/borrowmoney" exact component={BorrowMoney} />
-      <Route path="/borrowedtolog" exact component={BorrowedToLog} />
+      <Route path="/borrowedtolog" exact component={BorrowedToLog} /> 
       <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
       <Redirect to="/"/> 
+      
     </Switch>
 
     </>

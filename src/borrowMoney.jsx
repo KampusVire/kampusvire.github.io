@@ -90,8 +90,8 @@ const BorrowMoney = ()=>{
                 <h1 className="text-center open_sans fw-bold txt-green">Borrow Money</h1>
                 <div className="container w-50 mt-5">
                     <p>Name : {details["name"]}</p>
-                    <p>Department : {details["department"]}</p>
-                    <p>Year : {details["year"]}</p>
+                    {details["department"] ? <p>Department : {details["department"]}</p> : <span></span>}
+                    {details["year"] ? <p>Year : {details["year"]}</p> : <span></span>} 
                     {/* <img className="img-fluid p-2" src ="/img/user.jpg"></img> */}
                 </div>
                 <div className="container px-3 mt-3">
