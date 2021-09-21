@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 import { GRAPHQL_ENDPOINT } from "./config";
 import moneyIcon from "./components/img/money.png";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const QRScanPay = () => {
   const [details, setDetails] = useState("-1");
@@ -16,29 +18,54 @@ const QRScanPay = () => {
   const sendCrypto = async () => {
     // sendINR
     var passcode = prompt("Enter your passcode to proceed : ");
-    if (!passcode) return;
+    if (!passcode){
+      toast.error("Passcode is required to proceed");
+      return;
+    };
 
-    const decryptedMnemonic = await decryptMnemonicWithPasscode(
-      localStorage.getItem("celoEncryptedMnemonic"),
-      passcode
-    );
+    let decryptedMnemonic ;
+    try {
+      decryptedMnemonic =  await decryptMnemonicWithPasscode(
+        localStorage.getItem("celoEncryptedMnemonic"),
+        passcode
+      );
+    } catch (error) {
+      toast.error("Wrong passcode");
+      return;
+    }
     console.log(decryptedMnemonic);
     const accountDetails = await retrieveAccountDetailsFromMnemonic(
       decryptedMnemonic
     );
     console.log(accountDetails);
 
-    var transactionReceipt = await sendINR(
-      accountDetails.address,
-      accountDetails.privateKey,
-      details["celoAddress"],
-      amount
-    );
-    if (transactionReceipt.status) {
-      alert("Transaction Successful");
-    } else {
-      alert("Transaction Failed");
+    try {
+      var transactionReceipt = await sendINR(
+        accountDetails.address,
+        accountDetails.privateKey,
+        details["celoAddress"],
+        amount
+      );
+  
+  
+      if (transactionReceipt.status) {
+        toast.success("Transaction Successful");
+        alert("Transaction Successful");
+      } else {
+        toast.error("Transaction Failed");
+        alert("Transaction Failed");
+      }
+    } catch (error) {
+      toast(
+        "Check the address & also make sure you have sufficient balance in wallet",
+        {
+          duration: 6000,
+        }
+      );
+      toast.error("Transaction Failed");
     }
+
+
   };
 
   const sendMoney = async () => {
@@ -74,6 +101,7 @@ const QRScanPay = () => {
     var response = await axios(config);
     if (response.data == undefined) {
       alert("Failed due to network issue");
+      toast.error("Failed due to network issue");
       return {};
     }
 
@@ -110,15 +138,21 @@ const QRScanPay = () => {
       response.data.data.processTransaction.totalTransactions !=
       response.data.data.processTransaction.successfulTransactions
     ) {
-      alert("Not sufficient balance in wallet. Please recharge");
+      // alert("Not sufficient balance in wallet. Please recharge");
+      toast.error("Not sufficient balance in wallet. Please recharge")
       return;
     }
 
-    alert("Transaction successful");
+    toast.success("Transfer Successful")
+    // alert("Transaction successful");
   };
 
   return (
     <>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+      />
       {details == "-1" ? (
         <QrReader
           delay={200}
@@ -163,18 +197,18 @@ const QRScanPay = () => {
             />
           </div>
 
-          <div class="d-grid gap-2 d-md-block container button">
+          <div class="d-grid gap-3 d-md-block container button2">
             <button
-              class="btn bg-light text-uppercase txt-green"
+              class="btn bg-transparent text-uppercase txt-green"
               type="button"
-              onClick={sendMoney}
+              onClick={()=>{amount == 0 ? toast.error("Amount cannot be zero") : sendMoney()}}
             >
               virtual wallet
             </button>
             <button
               class="btn btn-success bg-green text-uppercase"
               type="button"
-              onClick={sendCrypto}
+              onClick={()=>{amount == 0 ? toast.error("Amount cannot be zero") : sendCrypto()}}
             >
               crypto
             </button>

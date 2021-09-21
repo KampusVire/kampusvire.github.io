@@ -17,3 +17,13 @@
 .button .btn{
     padding: .5rem ;
 }
+
+/* Button to float bottom for qrpay page*/
+.button2{
+    position: absolute;
+    bottom: 3rem;
+}
+
+.button2 .btn{
+    padding: .5rem ;
+}
