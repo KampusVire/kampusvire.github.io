@@ -35,7 +35,7 @@ export default function Navbar() {
                     <div></div>
                 </div>
                 <div class="position-absolute end-50 w-25">
-                    <img src={icon} class="img-fluid" />
+                    <img src={icon}  height="30px" />
                 </div>
                 <i className="fas fa-search mx-3 text-light fs-3" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
             </nav>

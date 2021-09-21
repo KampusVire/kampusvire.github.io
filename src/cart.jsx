@@ -2,10 +2,12 @@ import React , {useEffect, useState} from 'react';
 import { removeFromCart, updateQuantityCart, getAllProductsFromCart} from './shopping_function';
 import { GRAPHQL_ENDPOINT, ENDPOINT } from './config';
 import axios from 'axios';
-import useRazorpay,  { RazorpayOptions } from "react-razorpay";
-import {getBalanceByAddress, sendINR, decryptMnemonicWithPasscode, retrieveAccountDetailsFromMnemonic} from './celo_functions';
-import BigNumber from "bignumber.js";
-
+import useRazorpay from "react-razorpay";
+import { sendINR, decryptMnemonicWithPasscode, retrieveAccountDetailsFromMnemonic} from './celo_functions';
+import "./components/cart.css";
+import "./components/payment-confirmation.css";
+import Navbar from './components/Navbar';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Cart = ()=>{
 
@@ -25,11 +27,14 @@ const Cart = ()=>{
     // "shopObjId" 
     // "quantity" 
 
+
+
     useEffect(()=>{
+        console.log("Cart effect");
         getAllProductsFromCart().then(data=>{
             setProducts(data);
-            calulateTotal();
-        })  
+            calulateTotal();  
+        });
     },[])
 
     const calulateTotal = ()=>{
@@ -67,6 +72,11 @@ const Cart = ()=>{
     }
 
     const checkout = async()=>{
+        if(products.length == 0){
+            toast.error("Please add products to cart");                         
+            return;
+        }
+
         var cartDetailsJSON = JSON.parse(localStorage.getItem("cart")) ?? {};
         if(isPreorder && scheduledTime == "") return
             const token = localStorage.getItem('token');
@@ -108,6 +118,7 @@ const Cart = ()=>{
             var response = await axios(config);
             console.log(response.data.data.placeOrder);
             if (response.data == undefined){
+                toast.error("Something went wrong. Please try again");
                 return {};
             };
 
@@ -140,19 +151,19 @@ const Cart = ()=>{
                     
                       const rzp1 = new Razorpay(options);
                       rzp1.on("payment.failed", function (response) {
-                        alert(response.error.description);
+                          toast.error(response.error.description);
                       });
                       rzp1.open();
                 }
 
-                if(response.data.data.placeOrder.paymentType === "cash"){
+                else if(response.data.data.placeOrder.paymentType === "cash"){
+                    toast.success("Your order has been placed. Payment will be processed soon");
                     console.log("Successful payment")
                 }
 
-                if(response.data.data.placeOrder.paymentType === "virtualwallet"){
-                    console.log("success")
+                else if(response.data.data.placeOrder.paymentType === "virtualwallet"){
                     var data = JSON.stringify({
-                        query: `mutation($transactionIds : [String]!, $transactionHash : String){
+                        query: `mutation($transactionIds : [String]!, $transactionHash : [String]){
                         processTransaction(transactionIds : $transactionIds, transactionHash : $transactionHash){
                           totalTransactions
                           successfulTransactions
@@ -180,16 +191,19 @@ const Cart = ()=>{
                         response.data.data.processTransaction.details.forEach((trx)=>{
                             if(!trx["success"]){
                                 console.log("hit")
-                                alert(trx["error"])
+                                toast.error(trx["error"]);
+                                // alert(trx["error"])
                             }
                         })
                     }else{
+                        toast.success("Your order has been placed. Payment will be processed soon");
                         console.log("Successful payment")
                     }
 
                 }
 
-                if(response.data.data.placeOrder.paymentType === "crypto"){
+                else if(response.data.data.placeOrder.paymentType === "crypto"){
+
                     console.log(response.data.data.placeOrder.prices)
                     var passcode = "";
                     var decryptedMnemonic;
@@ -202,6 +216,7 @@ const Cart = ()=>{
                                 console.log(decryptedMnemonic);
                             }
                         }catch{
+                            toast.error("Invalid passcode");
                             console.log("Failed");
                             console.log(passcode);
                             passcode = "";
@@ -216,6 +231,7 @@ const Cart = ()=>{
                             var transactionReceipt = await sendINR(accountDetails.address,accountDetails.privateKey, address, price);
                             console.log(JSON.stringify(transactionReceipt));
                             if(!transactionReceipt.status){
+                                toast.error(transactionReceipt.error);
                                 alert("Transaction Failed");
                                 break;
                             }
@@ -223,7 +239,6 @@ const Cart = ()=>{
                         }
 
 
-                        console.log();
 
                         var data = JSON.stringify({
                             query: `mutation($transactionIds : [String]!, $transactionHash : [String]!){
@@ -259,11 +274,13 @@ const Cart = ()=>{
                             response.data.data.processTransaction.details.forEach((trx)=>{
                                 if(!trx["success"]){
                                     console.log("hit")
-                                    alert(trx["error"])
+                                    toast.error(trx["error"]);
+                                    // alert(trx["error"])
                                 }
                             })
                         }else{
                             console.log("Successful payment")
+                            toast.success("Your order has been placed. Payment will be processed soon");
                         }
 
                     } catch (error) {
@@ -277,41 +294,217 @@ const Cart = ()=>{
 
 
 
-    return (
-        <>
-        <h1>Hello This a Cart page</h1>
-        <h3>total price : {totalPrice}</h3>
-        <hr></hr>
-        {products.length == 0 ? <h2>Please add some product first</h2> :
-        products.map((product, index) =>{
-            return <div key={index}>
-                <h3>Name : {product.name}</h3>
-                <h4>Price : {product.price}</h4>
-                <h4>Shop Name : {product.shop}</h4>
-                <h4>Quantity : {product.quantity}</h4>
-                <button onClick={()=>{incrementProductQuantity(index)}}>Increase</button>
-                <button onClick={()=>{decrementProductQuantity(index)}}>Decrease</button>
-                <button onClick={()=>{removeProduct(index)}}>Remove from Cart</button>
-            </div>
-        })}
 
-        <hr></hr>
-        <select onChange={(data)=>paymentType=data.target.value} defaultValue="cash">
-            <option value="cash" >Cash</option>
+    return (
+        <div>
+        <Navbar></Navbar>
+        <Toaster
+                position="top-right"
+                reverseOrder={false}
+        />
+        <div id="reduceOpacity" className="opacity-100">
+          <header>
+            <h1>Your Cart</h1>
+          </header>
+  
+          {products.length == 0 ? (
+            <h2>Please add some product first</h2>
+          ) : (
+            products.map((product, index) => {
+              return (
+                <div className="items-list">
+                  <div className="item" key={index}>
+                    <h3 className="item-name">{product.name}</h3>
+                    <p className="item-cost"> Price per piece: {product.price}</p>
+                    <p className="item-shop">{product.shop}</p>
+                    <div className="item-qnty">
+                      <button
+                        className="subtract-button item-qnty-button"
+                        onClick={() => {
+                          decrementProductQuantity(index);
+                        }}
+                      >
+                        -
+                      </button>
+                      <p>{product.quantity}</p>
+                      <button
+                        className="add-button item-qnty-button"
+                        onClick={() => {
+                          incrementProductQuantity(index);
+                        }}
+                      >
+                        +
+                      </button>
+                      <div className="close-button">
+                        <button
+                          onClick={() => {
+                            removeProduct(index);
+                          }}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    </div>
+  
+                    {/* <div className="prep-time">Prep time: 25min</div> */}
+                    <div className="total">Rs {product.price*product.quantity}</div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+          <div class="total-amount-field">
+            <div class="total-amount">
+              <p>Total: Rs {totalPrice}</p>
+            </div>
+          </div>
+  
+          {/* <select
+            onChange={(data) => (paymentType = data.target.value)}
+            defaultValue="cash"
+          >
+            <option value="cash">Cash</option>
             <option value="virtualwallet">Virtual Wallet</option>
             <option value="online">Online</option>
             <option value="crypto">Crypto</option>
-        </select><br></br>
-        <select value={isPreorder ? 1 : 0} onChange={(data)=>setIsPreorder(data.target.value==1)}>
-            <option value={1} >Yes</option>
-            <option value={0} >No</option>
-        </select><br></br>
+          </select> */}
+          {/* <div class="payment-modes">
+            <div class="dropdown">
+              <button
+                class="dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                onChange={(data) => (console.log(data.target.value))}
+                defaultValue="cash"
+              >
+                Choose mode of payment
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li>
+                  <a class="dropdown-item" href="#" value="cash">
+                    Cash
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" value="virtualwallet">
+                    Virtual Wallet
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" value="online">
+                    Online
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" value="crypto">
+                    Crypto
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+  
+          <div>
+            <select
+              class="isPreorder"
+              value={isPreorder ? 1 : 0}
+              onChange={(data) => setIsPreorder(data.target.value == 1)}
+            >
+              <option value={1}>Yes</option>
+              <option value={0}>No</option>
+            </select>
+          </div> */}
+  
+  
+          {/* {isPreorder ? (
+            <input
+              type="datetime-local"
+              value={scheduledTime}
+              onChange={(data) => (scheduledTime = data.target.value.toString())}
+            />
+          ) : (
+            <span></span>
+          )} */}
+  
+          <div class="buttons">
+            {/* <button class="button">Add More</button> */}
+            <button class="button button--active" data-bs-toggle="modal" data-bs-target="#sendCelo">
+              checkout
+            </button>
+          </div>
+        </div>
 
-        {isPreorder ? <input  type="datetime-local" value={scheduledTime} onChange={(data)=>scheduledTime = data.target.value.toString()}/> :  <span></span>}
-        <br></br>
-        <button onClick={checkout}>Checkout</button>
-        </>
+        <div class="modal fade" id="sendCelo" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header pb-2 bg-light">
+                    <h3 class=" nunito_sans m-0 fw-bold">Choose Preferred Options </h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <label class="form-label mt-3">Payment Mode</label>
+                    <select onChange={(data)=>paymentType=data.target.value} class="form-select" defaultValue="cash">
+                        <option value="cash" >Cash</option>
+                        <option value="virtualwallet">Virtual Wallet</option>
+                        <option value="online">Online</option>
+                        <option value="crypto">Crypto</option>
+                    </select>
+                    <label class="form-label mt-3">Do you place this order in advance ?</label>
+
+                    <select value={isPreorder ? 1 : 0} class="form-select" onChange={(data)=>setIsPreorder(data.target.value==1)}>
+                        <option value={1} >Yes</option>
+                        <option value={0} >No</option>
+                    </select>
+
+                    {isPreorder ? <>                    <label class="form-label mt-3">Choose date & time of order</label>
+<input class="form-control" type="datetime-local"  onChange={(data)=>scheduledTime = data.target.value.toString()}/></> :  <span></span>}
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="d-grid gap-2 d-md-block container">
+
+                        <button type="button" class="btn bg-green text-light rubik" onClick={checkout} >Pay & Place Order</button>
+                        <button type="button" class="btn bg-white txt-green rubik" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      </div>
     );
 }
 
 export default Cart;                          
+
+
+// <h3>total price : {totalPrice}</h3>
+// <hr></hr>
+// {products.length == 0 ? <h2>Please add some product first</h2> :
+// products.map((product, index) =>{
+//     return <div key={index}>
+//         <h3>Name : {product.name}</h3>
+//         <h4>Price : {product.price}</h4>
+//         <h4>Shop Name : {product.shop}</h4>
+//         <h4>Quantity : {product.quantity}</h4>
+//         <button onClick={()=>{incrementProductQuantity(index)}}>Increase</button>
+//         <button onClick={()=>{decrementProductQuantity(index)}}>Decrease</button>
+//         <button onClick={()=>{removeProduct(index)}}>Remove from Cart</button>
+//     </div>
+// })}
+
+// <hr></hr>
+// <select onChange={(data)=>paymentType=data.target.value} defaultValue="cash">
+//     <option value="cash" >Cash</option>
+//     <option value="virtualwallet">Virtual Wallet</option>
+//     <option value="online">Online</option>
+//     <option value="crypto">Crypto</option>
+// </select><br></br>
+// <select value={isPreorder ? 1 : 0} onChange={(data)=>setIsPreorder(data.target.value==1)}>
+//     <option value={1} >Yes</option>
+//     <option value={0} >No</option>
+// </select><br></br>
+
+// {isPreorder ? <input  type="datetime-local" value={scheduledTime} onChange={(data)=>scheduledTime = data.target.value.toString()}/> :  <span></span>}
+// <br></br>
+// <button onClick={checkout}>Checkout</button>
