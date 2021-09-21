@@ -8,6 +8,7 @@ import Home from './home';
 import VirtualWallet from './virtualwallet';
 import CryptoWallet from './cryptowallet.';
 import QRScanPay from './qrscanpay';
+import OrderList from './orderList';
 
 function App() {
   var apiToken = localStorage.getItem('token');
@@ -34,6 +35,7 @@ function App() {
       <Route path="/virtualwallet" exact component={VirtualWallet} />
       <Route path="/cryptowallet" exact component={CryptoWallet} />
       <Route path="/qrpay" exact component={QRScanPay} />
+      <Route path="/orders" exact component={OrderList} />
       <Redirect to="/"/> 
     </Switch>
 
