@@ -3,6 +3,7 @@ import './navMenu.css'
 import './common.css'
 import pic from './img/user.jpg'
 import icon from './img/icon.png'
+import { Link } from 'react-router-dom'
 
 
 export default function Navbar() {
@@ -35,9 +36,9 @@ export default function Navbar() {
                     <div></div>
                 </div>
                 <div class="position-absolute end-50 w-25">
-                    <img src={icon}  height="30px" />
+                   <Link to="/"> <img src={icon}  height="30px" /></Link>
                 </div>
-                <i className="fas fa-search mx-3 text-light fs-3" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
+                <Link to="/cart"><i className="fas fa-shopping-cart mx-3 text-light fs-3"></i></Link>
             </nav>
             <div className="sidebar hide" id="sideMenu">
                 <div className="profileInfo p-4 bg-green">
@@ -54,7 +55,7 @@ export default function Navbar() {
                 </div>
             </div>
             {/* <!--Modal For Seach  --> */}
-            <div className="modal fade" id="searchModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            {/* <div className="modal fade" id="searchModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -75,7 +76,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
         </>
     )
