@@ -6,7 +6,7 @@ import AllProducts from './products';
 import Cart from './cart';
 import Home from './home';
 import VirtualWallet from './virtualwallet';
-import CryptoWallet from './cryptowallet.';
+import CryptoWallet from './cryptowallet';
 import QRScanPay from './qrscanpay';
 import OrderList from './orderList';
 import BorrowMoney from './borrowMoney';
