@@ -66,6 +66,10 @@ const Home = () => {
           response.data.data.baseProfileDetails.celoAddress
         );
         localStorage.setItem(
+          "isShop",
+          response.data.data.baseProfileDetails.isShop
+        );
+        localStorage.setItem(
           "celoEncryptedMnemonic",
           response.data.data.baseProfileDetails.celoEncryptedMnemonic
         );
