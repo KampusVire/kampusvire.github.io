@@ -6,6 +6,7 @@ import QrReader from "react-qr-scanner";
 import icon from "./components/img/icon.png"
 import Navbar from "./components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
+import { Redirect } from "react-router";
 
 
 const BorrowMoney = ()=>{
@@ -58,6 +59,7 @@ const BorrowMoney = ()=>{
             return {};
         };
         toast.success("Successfully Borrowed")
+        window.location.href="/successtask"
     }
 
     return (<>
@@ -95,12 +97,12 @@ const BorrowMoney = ()=>{
                     {/* <img className="img-fluid p-2" src ="/img/user.jpg"></img> */}
                 </div>
                 <div className="container px-3 mt-3">
-                    <label for="amoount" className="form-label m-0 nunito_sans fs-5">Amount</label><br />
+                    <label htmlFor="amoount" className="form-label m-0 nunito_sans fs-5">Amount</label><br />
                     <small className="text-muted open_sans">Carefully Enter The Amount </small>
                     <input  className="form-control mt-2 fst-italic"  type="number" placeholder="Enter amount" onInput={(e)=>amount=e.target.value}/>
                 </div>
                 <div className="container px-3 mt-3">
-                    <label for="description" className="form-label m-0 nunito_sans fs-5">Description</label><br />
+                    <label htmlFor="description" className="form-label m-0 nunito_sans fs-5">Description</label><br />
                     <input className="form-control mt-2 fst-italic" id="description" type="text"  defaultValue="Borrowing" onInput={(e)=>description=e.target.value} />
                 </div>
                 

@@ -52,6 +52,8 @@ const QRScanPay = () => {
   
       if (transactionReceipt.status) {
         toast.success("Transaction Successful");
+        window.location.href="/successtask"
+
         // alert("Transaction Successful");
       } else {
         toast.error("Transaction Failed");
@@ -104,7 +106,7 @@ const QRScanPay = () => {
     if (response.data == undefined) {
       alert("Failed due to network issue");
       toast.error("Failed due to network issue");
-      return {};
+      return;
     }
 
     var trxId = response.data.data.transferMoney.transactionId;
@@ -146,6 +148,7 @@ const QRScanPay = () => {
     }
 
     toast.success("Transfer Successful")
+    window.location.href="/successtask"
     // alert("Transaction successful");
   };
 

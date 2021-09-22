@@ -15,6 +15,9 @@ import BorrowedFromLog from './borrowedFromLog';
 import TransactionLog from './transaction_log';
 import OrderLog from './orderLog';
 import AddProduct from './addProduct';
+import SuccessPage from './successPage';
+import ErrorPage from './errorPage';
+
 
 function App() {
   var apiToken = localStorage.getItem('token');
@@ -48,6 +51,8 @@ function App() {
         <Route path="/transactionlog" exact component={TransactionLog} />
         <Route path="/orders" exact component={OrderLog} />
         <Route path="/addproduct" exact component={AddProduct} />
+        <Route path="/successtask" exact component={SuccessPage} />
+        <Route path="/errortask" exact component={ErrorPage} />
         <Redirect to="/"/> 
       </Switch>
       </>
@@ -69,6 +74,8 @@ function App() {
         <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
         <Route path="/transactionlog" exact component={TransactionLog} />
         <Route path="/orders" exact component={OrderLog} />
+        <Route path="/successtask" exact component={SuccessPage} />
+        <Route path="/errortask" exact component={ErrorPage} />
         <Redirect to="/"/> 
       </Switch>
       </>
