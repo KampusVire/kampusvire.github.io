@@ -8,7 +8,13 @@ import Navbar from "./components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 import "./components/transaction_card.css";
 
+function useForceUpdate(){
+    let [value, setState] = useState(true);
+    return () => setState(!value);
+}    
+
 const OrderLog = ()=>{
+    let forceUpdate = useForceUpdate()
     const [loaded,setLoaded] = useState(false);
     const [orders, setOrders] = useState([]);
     const token = localStorage.getItem('token');
@@ -16,6 +22,7 @@ const OrderLog = ()=>{
     const isShop = localStorage.getItem('isShop');
 
     const loadOrderLog = async () => {
+        console.log("HI");
 
         var data = JSON.stringify({
             query: `query($orderStatus : String){
@@ -103,18 +110,21 @@ const OrderLog = ()=>{
 
         if(response.data.data.orderStatusUpdate.success){
             toast.success(response.data.data.orderStatusUpdate.message)
-            var tmpData = orders;
-            var status;
-
+            let tmpData = orders;
+            console.log(orders[index])
+    
             if(status == "completed"){
-                tmpData[index].node.orderStatus = "COMPLETED"
+                tmpData[index]["node"]["orderStatus"] = "COMPLETED"
             }else if(status == "cancelled"){
-                tmpData[index].node.orderStatus = "CANCELLED"
+                tmpData[index]["node"]["orderStatus"] = "CANCELLED"
             }else if(status == "processing"){
-                tmpData[index].node.orderStatus = "PROCESSING"
+                tmpData[index]["node"]["orderStatus"] = "PROCESSING"
             }
-
+    
+            console.log(tmpData[index].node.orderStatus)
+    
             setOrders(tmpData);
+            forceUpdate();
 
         }else{
             toast.error(response.data.data.orderStatusUpdate.error)
@@ -125,6 +135,7 @@ const OrderLog = ()=>{
     if(!loaded){
         loadOrderLog();
     }
+
 
     return (<>
         <Navbar/>
@@ -183,7 +194,7 @@ const OrderLog = ()=>{
                     <div class="col fw-bold text-danger">Status : </div>
                     <div class="col fst-italic">{order.node.orderStatus}</div>
                 </div>
-                { order.node.isShop && order.node.orderStatus != "COMPLETED" ?              
+                { isShop && order.node.orderStatus != "COMPLETED" ?              
                 <div class="btn-group mx-3 mt-3" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-dark open_sans fw-bold" onClick={()=>{updateOrderStatus(index,order.node.objId , "processing")}} >Process</button>
                     <button type="button" class="btn btn-warning open_sans fw-bold" onClick={()=>{updateOrderStatus(index,order.node.objId , "completed")}}>Deliver</button>

@@ -111,7 +111,7 @@ const TransactionLog = ()=>{
 
                 </div>
                 <div class="name">
-                    {transaction.node.sender.isShop ? transaction.node.sender.shopProfile.name : transaction.node.sender.studentProfile.name}
+                    {transaction.node.sender.objId != userId ? (transaction.node.sender.isShop ? transaction.node.sender.shopProfile.name : transaction.node.sender.studentProfile.name) : (transaction.node.receiver.isShop ? transaction.node.receiver.shopProfile.name : transaction.node.receiver.studentProfile.name) }
                 </div>
                 <div class="details">
                     Details : {transaction.node.description}
