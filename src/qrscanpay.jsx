@@ -9,6 +9,7 @@ import axios from "axios";
 import { GRAPHQL_ENDPOINT } from "./config";
 import moneyIcon from "./components/img/money.png";
 import toast, { Toaster } from 'react-hot-toast';
+import Navbar from "./components/Navbar";
 
 
 const QRScanPay = () => {
@@ -40,6 +41,7 @@ const QRScanPay = () => {
     console.log(accountDetails);
 
     try {
+      toast.success("Initiate transaction")
       var transactionReceipt = await sendINR(
         accountDetails.address,
         accountDetails.privateKey,
@@ -50,10 +52,10 @@ const QRScanPay = () => {
   
       if (transactionReceipt.status) {
         toast.success("Transaction Successful");
-        alert("Transaction Successful");
+        // alert("Transaction Successful");
       } else {
         toast.error("Transaction Failed");
-        alert("Transaction Failed");
+        // alert("Transaction Failed");
       }
     } catch (error) {
       toast(
@@ -149,11 +151,14 @@ const QRScanPay = () => {
 
   return (
     <>
-        <Toaster
+    <Navbar/>
+      <Toaster
           position="top-right"
           reverseOrder={false}
       />
       {details == "-1" ? (
+        <>
+        <h3 className="text-center">Scan QR To Pay</h3>
         <QrReader
           delay={200}
           style={{ width: "100%", height: "100%" }}
@@ -164,6 +169,7 @@ const QRScanPay = () => {
             }
           }}
         />
+        </>
       ) : (
         <div>
           <div class="container bg-green p-3 d-flex justify-content-around align-items-center">
