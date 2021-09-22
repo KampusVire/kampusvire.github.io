@@ -31,7 +31,7 @@ function App() {
     );
   }
 
-  if(isShop){
+  if(isShop == "true"){
     return (
       <>
       <Switch>
@@ -50,28 +50,30 @@ function App() {
       </Switch>
       </>
     );
+  }else{
+    return (
+      <>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/shops" exact component={AllShops} />
+        <Route path="/shop/:shopid" exact component={AllProducts} />
+        <Route path="/cart" exact component={Cart} />
+        <Route path="/virtualwallet" exact component={VirtualWallet} />
+        <Route path="/cryptowallet" exact component={CryptoWallet} />
+        <Route path="/qrpay" exact component={QRScanPay} />
+        {/* <Route path="/orders" exact component={OrderList} /> */}
+        <Route path="/borrowmoney" exact component={BorrowMoney} />
+        <Route path="/borrowedtolog" exact component={BorrowedToLog} /> 
+        <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
+        <Route path="/transactionlog" exact component={TransactionLog} />
+        <Route path="/orders" exact component={OrderLog} />
+        <Redirect to="/"/> 
+      </Switch>
+      </>
+    );
   }
 
-  return (
-    <>
-    <Switch>
-      <Route path="/" exact component={Home} />
-      <Route path="/shops" exact component={AllShops} />
-      <Route path="/shop/:shopid" exact component={AllProducts} />
-      <Route path="/cart" exact component={Cart} />
-      <Route path="/virtualwallet" exact component={VirtualWallet} />
-      <Route path="/cryptowallet" exact component={CryptoWallet} />
-      <Route path="/qrpay" exact component={QRScanPay} />
-      {/* <Route path="/orders" exact component={OrderList} /> */}
-      <Route path="/borrowmoney" exact component={BorrowMoney} />
-      <Route path="/borrowedtolog" exact component={BorrowedToLog} /> 
-      <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
-      <Route path="/transactionlog" exact component={TransactionLog} />
-      <Route path="/orders" exact component={OrderLog} />
-      <Redirect to="/"/> 
-    </Switch>
-    </>
-  );
+
 }
 
 export default App;
