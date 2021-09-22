@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom'
 export default function Navbar() {
 
 
+    const isShop = localStorage.getItem('isShop');
+
+
     const show = ()=> {
         let checkBox = document.getElementById(`checkBox`);
         let sideBar = document.getElementById(`sideMenu`);
@@ -38,7 +41,8 @@ export default function Navbar() {
                 <div class="position-absolute end-50 w-25">
                    <Link to="/"> <img src={icon}  height="30px" /></Link>
                 </div>
-                <Link to="/cart"><i className="fas fa-shopping-cart mx-3 text-light fs-3"></i></Link>
+                {isShop ? <Link to="/cart"><i className="fas fa-shopping-cart mx-3 text-light fs-3"></i></Link> : <span></span>}
+                
             </nav>
             <div className="sidebar hide" id="sideMenu">
                 <div className="profileInfo p-4 bg-green">

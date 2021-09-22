@@ -8,7 +8,7 @@ import Home from './home';
 import VirtualWallet from './virtualwallet';
 import CryptoWallet from './cryptowallet';
 import QRScanPay from './qrscanpay';
-import OrderList from './orderList';
+// import OrderList from './orderList';
 import BorrowMoney from './borrowMoney';
 import BorrowedToLog from './borrowedToLog';
 import BorrowedFromLog from './borrowedFromLog';
@@ -31,10 +31,30 @@ function App() {
     );
   }
 
+  if(isShop){
+    return (
+      <>
+      <Switch>
+        {/* <Route exact path="/" component={()=> <About name="Tanmoy"/>} /> */}
+        <Route path="/" exact component={Home} />
+        <Route path="/virtualwallet" exact component={VirtualWallet} />
+        <Route path="/cryptowallet" exact component={CryptoWallet} />
+        <Route path="/qrpay" exact component={QRScanPay} />
+        {/* <Route path="/orders" exact component={OrderList} /> */}
+        <Route path="/borrowmoney" exact component={BorrowMoney} />
+        <Route path="/borrowedtolog" exact component={BorrowedToLog} /> 
+        <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
+        <Route path="/transactionlog" exact component={TransactionLog} />
+        <Route path="/orders" exact component={OrderLog} />
+        <Redirect to="/"/> 
+      </Switch>
+      </>
+    );
+  }
+
   return (
     <>
     <Switch>
-      {/* <Route exact path="/" component={()=> <About name="Tanmoy"/>} /> */}
       <Route path="/" exact component={Home} />
       <Route path="/shops" exact component={AllShops} />
       <Route path="/shop/:shopid" exact component={AllProducts} />
@@ -42,16 +62,14 @@ function App() {
       <Route path="/virtualwallet" exact component={VirtualWallet} />
       <Route path="/cryptowallet" exact component={CryptoWallet} />
       <Route path="/qrpay" exact component={QRScanPay} />
-      <Route path="/orders" exact component={OrderList} />
+      {/* <Route path="/orders" exact component={OrderList} /> */}
       <Route path="/borrowmoney" exact component={BorrowMoney} />
       <Route path="/borrowedtolog" exact component={BorrowedToLog} /> 
       <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
       <Route path="/transactionlog" exact component={TransactionLog} />
-      <Route path="/orderlog" exact component={OrderLog} />
+      <Route path="/orders" exact component={OrderLog} />
       <Redirect to="/"/> 
-      
     </Switch>
-
     </>
   );
 }
