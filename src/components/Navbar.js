@@ -18,14 +18,23 @@ export default function Navbar() {
         if (checkBox.checked == true) {
           sideBar.classList.remove("hide");
           sideBar.classList.add("show");
-          document.getElementById('reduceOpacity').classList.add("opacity-50");
-          document.getElementById('reduceOpacity').classList.remove("opacity-100");
+          if(document.getElementById('reduceOpacity')){
+            document.getElementById('reduceOpacity').classList.add("opacity-50");
+          }
+          if(document.getElementById('reduceOpacity')){
+            document.getElementById('reduceOpacity').classList.remove("opacity-100");
+          }
         
         } else {
           sideBar.classList.remove("show");
           sideBar.classList.add("hide");
-          document.getElementById('reduceOpacity').classList.add("opacity-100");
-          document.getElementById('reduceOpacity').classList.remove("opacity-500");
+          if(document.getElementById('reduceOpacity')){
+            document.getElementById('reduceOpacity').classList.add("opacity-100");
+          }
+
+          if(document.getElementById('reduceOpacity')){
+            document.getElementById('reduceOpacity').classList.remove("opacity-500");
+          }
     
         }
       }
@@ -45,7 +54,7 @@ export default function Navbar() {
                 
             </nav>
             <div className="sidebar hide" id="sideMenu">
-                <div className="profileInfo p-4 bg-green">
+                {/* <div className="profileInfo p-4 bg-green">
                     <div className="bg-green profilePic mb-3">
                         <img src={pic} className="float-start" />
                     </div>
@@ -56,7 +65,32 @@ export default function Navbar() {
                         </small>
 
                     </div>
-                </div>
+                </div> */}
+
+                <header class="bg-green rubik fs-1 p-3">Your Options</header>
+                {isShop != "true" ? <>
+                <li><Link to="/shops" >All Shops</Link></li>
+                    <li><Link to="/virtualwallet">Virtual Wallet</Link></li>
+                    <li><Link to="/cryptowallet">Crypto Wallet</Link></li>
+                    <li><Link to="/transactionlog">All Transactions</Link></li>
+                    <li><Link to="/orders">Orders</Link></li>
+                    <li><Link to="/borrowmoney">Borrow Money</Link></li>
+                    <li><Link to="/borrowedtolog">Borrowed To Log</Link></li>
+                    <li><Link to="/borrowedfromlog">Borrowed From Log</Link></li>
+                </> : <>
+                <ul>
+                    <li><Link to="/allproducts" >All Products</Link></li>
+                    <li><Link to="/addproduct">Add Product</Link></li>
+                    <li><Link to="/virtualwallet">Virtual Wallet</Link></li>
+                    <li><Link to="/cryptowallet">Crypto Wallet</Link></li>
+                    <li><Link to="/transactionlog">All Transactions</Link></li>
+                    <li><Link to="/orders">Orders</Link></li>
+                    <li><Link to="/borrowmoney">Borrow Money</Link></li>
+                    <li><Link to="/borrowedtolog">Borrowed To Log</Link></li>
+                    <li><Link to="/borrowedfromlog">Borrowed From Log</Link></li>
+                  </ul>
+                </> }
+
             </div>
             {/* <!--Modal For Seach  --> */}
             {/* <div className="modal fade" id="searchModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

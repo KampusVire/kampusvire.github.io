@@ -194,7 +194,7 @@ const OrderLog = ()=>{
                     <div class="col fw-bold text-danger">Status : </div>
                     <div class="col fst-italic">{order.node.orderStatus}</div>
                 </div>
-                { isShop && order.node.orderStatus != "COMPLETED" ?              
+                { isShop == "true" && order.node.orderStatus != "COMPLETED" ?              
                 <div class="btn-group mx-3 mt-3" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-dark open_sans fw-bold" onClick={()=>{updateOrderStatus(index,order.node.objId , "processing")}} >Process</button>
                     <button type="button" class="btn btn-warning open_sans fw-bold" onClick={()=>{updateOrderStatus(index,order.node.objId , "completed")}}>Deliver</button>
@@ -207,7 +207,7 @@ const OrderLog = ()=>{
         </>)    
             })}
         </div>
-        {isShop == true ? <p>shop</p> : <p>buyer</p> }
+        {isShop == "true" ? <p>shop</p> : <p>buyer</p> }
     </>)
 }
 
