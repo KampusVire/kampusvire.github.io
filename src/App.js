@@ -12,6 +12,7 @@ import OrderList from './orderList';
 import BorrowMoney from './borrowMoney';
 import BorrowedToLog from './borrowedToLog';
 import BorrowedFromLog from './borrowedFromLog';
+import TransactionLog from './transaction_log';
 
 function App() {
   var apiToken = localStorage.getItem('token');
@@ -44,6 +45,7 @@ function App() {
       <Route path="/borrowmoney" exact component={BorrowMoney} />
       <Route path="/borrowedtolog" exact component={BorrowedToLog} /> 
       <Route path="/borrowedfromlog" exact component={BorrowedFromLog} />
+      <Route path="/transactionlog" exact component={TransactionLog} />
       <Redirect to="/"/> 
       
     </Switch>

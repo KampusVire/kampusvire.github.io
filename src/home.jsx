@@ -66,7 +66,7 @@ const Home = () => {
           celoAddress: response.data.data.baseProfileDetails.celoAddress,
         };
 
-
+        localStorage.setItem("id", jsonData["id"]);
         localStorage.setItem(
           "celoAddress",
           response.data.data.baseProfileDetails.celoAddress
