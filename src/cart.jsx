@@ -51,8 +51,6 @@ const Cart = ()=>{
 
         setTotalPrice(tmpPrice);
         setProducts(data);
-
-
     },[])
 
 
