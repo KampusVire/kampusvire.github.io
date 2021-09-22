@@ -207,7 +207,7 @@ const OrderLog = ()=>{
         </>)    
             })}
         </div>
-        {isShop == "true" ? <p>shop</p> : <p>buyer</p> }
+        {/* {isShop == "true" ? <p>shop</p> : <p>buyer</p> } */}
     </>)
 }
 

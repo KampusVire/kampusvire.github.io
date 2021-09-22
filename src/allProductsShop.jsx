@@ -125,18 +125,18 @@ const AllProductsShop = () => {
         reverseOrder={false}
       />
       <Navbar />
-    <div class="container">
+    <div class="container my-3">
     {products.map((product, index)=>{
         return (
             <div class="row border-top p-1" key={product["objId"]}>
-                <div class="col"> 
+                <div class="col-3"> 
                     <img src={ENDPOINT+"/media/"+product["picture"]} alt="" class="img-fluid rounded-circle mx-auto d-block" style={{width: "3rem", height: "3rem"}}/>
                 </div>
-                <div class="col d-flex align-items-center justify-content-center p-1" >{product["name"]} ₹ {product["price"]}</div>
-                <div class="col txt-green d-flex align-items-center justify-content-center p-1">
+                <div class="col-3 d-flex align-items-center justify-content-center p-1" >{product["name"]} ₹ {product["price"]}</div>
+                <div class="col-6 txt-green d-flex align-items-center justify-content-center p-1">
                     {product["isAvailable"] ?
-                    <button className="btn btn-success" onClick={()=>updateProduct(index)}>AVAILABLE</button>
-                    : <button className="btn btn-danger" onClick={()=>updateProduct(index)}>UNAVAILABLE</button>}
+                    <button className="btn btn-success w-75" onClick={()=>updateProduct(index)}>AVAILABLE</button>
+                    : <button className="btn btn-danger w-75" onClick={()=>updateProduct(index)}>UNAVAILABLE</button>}
                 </div>
             </div>
         )

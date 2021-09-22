@@ -9,6 +9,15 @@ import "./components/payment-confirmation.css";
 import Navbar from './components/Navbar';
 import toast, { Toaster } from 'react-hot-toast';
 import { useHistory } from 'react-router';
+// import bootstrap from "bootstrap/dist/js/bootstrap";
+
+
+
+function useForceUpdate(){
+  let [value, setState] = useState(true);
+  return () => setState(!value);
+}    
+
 
 const Cart = ()=>{
 
@@ -20,6 +29,7 @@ const Cart = ()=>{
     var paymentType = "cash";
     var scheduledTime = (new Date()).toISOString();
     const history = useHistory()
+    const forceUpdate = useForceUpdate();
 
     // "objId"
     // "name" 
@@ -30,14 +40,22 @@ const Cart = ()=>{
     // "quantity" 
 
 
-
-    useEffect(()=>{
+    useEffect(async()=>{
         console.log("Cart effect");
-        getAllProductsFromCart().then(data=>{
-            setProducts(data);
-            calulateTotal();  
-        });
+        const data = await getAllProductsFromCart();
+        var tmpPrice = 0;
+        
+        data.forEach(product=>{
+            tmpPrice += product.price * product.quantity;
+        })
+
+        setTotalPrice(tmpPrice);
+        setProducts(data);
+
+
     },[])
+
+
 
     const calulateTotal = ()=>{
         let tmpPrice = 0;
@@ -46,6 +64,7 @@ const Cart = ()=>{
         })
         setTotalPrice(tmpPrice);
     }
+
 
     const removeProduct = (index)=>{
         removeFromCart(products[index].shopObjId,products[index].objId); 
@@ -71,6 +90,19 @@ const Cart = ()=>{
         updateQuantityCart(tmp[index].shopObjId, tmp[index].objId, tmp[index].quantity);
         setProducts([...tmp]);
         calulateTotal();
+    }
+
+
+    const hideModal = ()=>{
+      // var modalPaymentUI = document.getElementById("sendCelo");
+      // if(modalPaymentUI){
+      //   var modal = bootstrap.Modal.getInstance(modalPaymentUI)
+      //   // modal
+      //   modal.hide()
+      //   if(document.getElementsByClassName("modal-backdrop").length > 0){
+      //     document.getElementsByClassName("modal-backdrop")[0].remove()
+      //   }
+      // }
     }
 
     const checkout = async()=>{
@@ -161,6 +193,7 @@ const Cart = ()=>{
                 else if(response.data.data.placeOrder.paymentType === "cash"){
                     toast.success("Your order has been placed. Payment will be processed soon");
                     console.log("Successful payment")
+                    hideModal()
                     history.push("/successtask")
                 }
 
@@ -201,6 +234,7 @@ const Cart = ()=>{
                     }else{
                         toast.success("Your order has been placed. Payment will be processed soon");
                         console.log("Successful payment")
+                        hideModal()
                         history.push("/successtask")
                     }
 
@@ -285,6 +319,7 @@ const Cart = ()=>{
                         }else{
                             console.log("Successful payment")
                             toast.success("Your order has been placed. Payment will be processed soon");
+                            hideModal()
                             history.push("/successtask")
                         }
 

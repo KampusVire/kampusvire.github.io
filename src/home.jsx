@@ -5,6 +5,8 @@ import { GRAPHQL_ENDPOINT } from "./config";
 import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import "./components/home.css";
+import celoPic from "./components/img/celo.png";
+import trans from "./components/img/trans.png"
 
 const Home = () => {
   // State related variables
@@ -13,6 +15,7 @@ const Home = () => {
   const [qrCodeData, setQrCodeData] = useState("-1");
   var jsonData = {};
   const token = localStorage.getItem("token");
+  const [isShop, setIsShop] = useState("false");
 
   var data = JSON.stringify({
     query: `query{
@@ -75,6 +78,7 @@ const Home = () => {
           "isShop",
           response.data.data.baseProfileDetails.isShop
         );
+        setIsShop(response.data.data.baseProfileDetails.isShop.toString())
         localStorage.setItem(
           "celoEncryptedMnemonic",
           response.data.data.baseProfileDetails.celoEncryptedMnemonic
@@ -113,6 +117,55 @@ const Home = () => {
           </div>
         </div>
 
+        <div className="container mt-3">
+        {isShop == "true" ?                     <div className="row">
+                        <div className="col">
+                            <Link to="/allproducts" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto">
+                            <i class="fas fa-hamburger fs-2"></i>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/virtualwallet" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto"  >
+                                <i className="fas fa-wallet fs-2 text-dark"></i>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/cryptowallet" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto">
+                                <img src={celoPic} alt="" class="img-fluid w-75 invertColor" />
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/borrowmoney" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto">
+                                <img src={trans} alt="" className="img-fluid w-75 invertColor" />
+                            </Link>
+
+                        </div>
+                    </div> :                     <div className="row">
+                        <div className="col">
+                            <Link to="/shops" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto">
+                                <i class="fas fa-store fs-2" ></i>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/virtualwallet" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto"  >
+                                <i className="fas fa-wallet fs-2 text-dark"></i>
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/cryptowallet" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto">
+                                <img src={celoPic} alt="" class="img-fluid w-75 invertColor" />
+                            </Link>
+                        </div>
+                        <div className="col">
+                            <Link to="/borrowmoney" className="w-75 iconHover rounded-circle text-dark d-flex justify-content-center align-items-center p-2 mx-auto">
+                                <img src={trans} alt="" className="img-fluid w-75 invertColor" />
+                            </Link>
+
+                        </div>
+                    </div> }
+
+                </div>
+
         <div className="d-grid gap-2 d-md-block container mt-5">
             <Link
             className="btn btn-success bg-green nunito_sans fw-bold"
@@ -124,12 +177,12 @@ const Home = () => {
             className="btn bg-white txt-green nunito_sans fw-bold mt-3"
             type="button"
           >
-            <Link
+            {/* <Link
               to="/shops"
               className="nunito_sans fw-bold txt-green text-decoration-none"
             >
               All Shops
-            </Link>
+            </Link> */}
           </button>
         </div>
 
@@ -148,7 +201,7 @@ const Home = () => {
               </div>
               <div className="modal-body p-0">
                 <div className="QrImgModal">
-                  <QRCode value={qrCodeData} />
+                  <QRCode value={qrCodeData} size={300} />
                 </div>
               </div>
             </div>

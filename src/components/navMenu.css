@@ -86,7 +86,7 @@
 
 .sidebar {
   position: fixed;
-  height: 100vh;
+  height: 95vh;
   width: 20rem;
   z-index: 7;
   background-color: white;

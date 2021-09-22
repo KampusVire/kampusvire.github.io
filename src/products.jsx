@@ -116,12 +116,13 @@ const AllProducts = (props) => {
           return (
             <div
               className="card  m-1 p-0 bg-light  position-relative overflow-hidden"
-              style={{ width: "47%" }}
+              style={{ width: "47%"}}
               key={product.objId}
             >
               <img
                 src={ENDPOINT + "/media/" + product.picture}
                 className="card-img-top"
+                style={{height:"120px", objectFit : "cover"}}
               />
               <div className="card-body p-1">
 
@@ -145,7 +146,7 @@ const AllProducts = (props) => {
                     Order here
                   </button>
                 </div>
-                {product.isAvailable ? <spa></spa> :  <div className="corner-ribbon top-right sticky red open_sans fw-bold">Busy</div>}
+                {product.isAvailable ? <span></span> :  <div className="corner-ribbon top-right sticky red open_sans fw-bold" style={{fontSize:"8.5px"}}>SOLD OUT</div>}
 
               </div>
             </div>

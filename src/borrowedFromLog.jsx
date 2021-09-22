@@ -76,7 +76,7 @@ const BorrowedFromLog = () => {
     <>
          <div>
         <Navbar />
-        <h1 className="text-center open_sans fw-bold txt-green  mb-3">
+        <h1 className="text-center open_sans fw-bold mt-3  mb-3">
           Borrowed From 
         </h1>
         <div className="container mt-3">
@@ -87,11 +87,11 @@ const BorrowedFromLog = () => {
               {snbrw["node"]["sender"]["isShop"] ? (
                     <>
                       <div>
-                        <div className="row">
+                        <div className="row mb-2">
                           <div className="col">Name : </div>
                           <div className="col">{snbrw["node"]["sender"]["shopProfile"]["name"]}</div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-2">
                           <div className="col">Phoneno : </div>
                           <div className="col">{snbrw["node"]["sender"]["shopProfile"]["phoneNo"]}</div>
                         </div>
@@ -100,23 +100,23 @@ const BorrowedFromLog = () => {
                   ) : (
                     <>
                       <div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col">Name : </div>
                         <div className="col">{snbrw["node"]["sender"]["studentProfile"]["name"]}</div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col">Phoneno : </div>
                         <div className="col">{snbrw["node"]["sender"]["studentProfile"]["phoneNo"]}</div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col">Department : </div>
                         <div className="col">{snbrw["node"]["sender"]["studentProfile"]["department"]}</div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col">Year : </div>
                         <div className="col">{snbrw["node"]["sender"]["studentProfile"]["year"]}</div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col">Roll no : </div>
                         <div className="col">{snbrw["node"]["sender"]["studentProfile"]["rollNo"]}</div>
                       </div>
@@ -125,15 +125,15 @@ const BorrowedFromLog = () => {
                   )}
 
 
-                <div className="row text-danger border-top">
+                <div className="row mb-2 pt-2 text-danger border-top">
                   <div className="col fw-bold text-uppercase ">Amount : </div>
                   <div className="col ">&#8377; {snbrw["node"]["amount"]}</div>
                 </div>
-                <div className="row text-danger border-bottom">
+                <div className="row mb-2 text-danger ">
                   <div className="col fw-bold text-uppercase ">Reason : </div>
                   <div className="col ">{snbrw["node"]["description"]}</div>
                 </div>
-                <div className="row text-danger border-bottom">
+                <div className="row mb-2 pb-2 text-danger border-bottom">
                   <div className="col fw-bold text-uppercase ">Borrowed on : </div>
                   <div className="col ">{snbrw["node"]["borrowedOn"]}</div>
                 </div>

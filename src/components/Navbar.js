@@ -4,6 +4,7 @@ import './common.css'
 import pic from './img/user.jpg'
 import icon from './img/icon.png'
 import { Link } from 'react-router-dom'
+import {logout} from "../logout";
 
 
 export default function Navbar() {
@@ -67,7 +68,7 @@ export default function Navbar() {
                     </div>
                 </div> */}
 
-                <header class="bg-green rubik fs-1 p-3">Your Options</header>
+                <header class="bg-green rubik fs-1 p-3 d-flex" style={{justifyContent:"space-between", flexDirection : "row"}}><span>Your Options</span><a onClick={logout}><i class="fas fa-sign-out-alt"></i></a></header>
                 {isShop != "true" ? <>
                 <li><Link to="/shops" >All Shops</Link></li>
                     <li><Link to="/virtualwallet">Virtual Wallet</Link></li>
@@ -93,7 +94,7 @@ export default function Navbar() {
 
             </div>
             {/* <!--Modal For Seach  --> */}
-            {/* <div className="modal fade" id="searchModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="searchModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -114,7 +115,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
 
         </>
     )

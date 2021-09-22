@@ -95,8 +95,8 @@ const CryptoWallet = () => {
                 position="top-right"
                 reverseOrder={false}
             />
-            <h1 className="text-center header my-5 py-3">Kampus Vire</h1>
-            <h1 className="text-center rubik fw-bold mt-5 pt-5 mb-3">
+            <h1 className="text-center header my-3 py-3">Kampus Vire</h1>
+            <h1 className="text-center rubik fw-bold mt-3  mb-2">
                 Crypto Wallet
                 <img src="https://styles.redditmedia.com/t5_i05sx/styles/communityIcon_86ltnuoxy9541.png" height="50px" />
             </h1>
@@ -105,7 +105,7 @@ const CryptoWallet = () => {
         <h1 className="nunito_sans text-uppercase text-center">Balance</h1>
         <h2 className="Rubik txt-green fw-bold text-uppercase text-center"> <img src="https://styles.redditmedia.com/t5_i05sx/styles/communityIcon_86ltnuoxy9541.png" height="30px" /> {balance}</h2>
     </div>
-    <div className="container px-4 my-5">
+    <div className="container px-4 my-4">
         <input type="text" className="form-control bg-light text-muted open_sans text-uppercase fst-italic fs-6 py-2"
             value={celoAddress} readOnly={true} />
     </div>
