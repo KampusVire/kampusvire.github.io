@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from "react";
 import {getBalanceByAddress, sendINR, decryptMnemonicWithPasscode, retrieveAccountDetailsFromMnemonic} from './celo_functions';
 import BigNumber from "bignumber.js";
-
+import { useHistory } from "react-router";
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -11,6 +11,7 @@ const CryptoWallet = () => {
     const [balance, setBalance] = useState("...");
     const [amounToBeSent, setAmounToBeSent] = useState(0);
     const [receiverCeloAddress, setReceiverCeloAddress] = useState("");
+    const history = useHistory()
 
 
     useEffect( () => {
@@ -79,6 +80,7 @@ const CryptoWallet = () => {
 
         if(transactionReceipt.status){
             toast.success("Transaction Successful");
+            history.push("/successtask")
         }else{
             toast.error("Transaction Failed");
         }

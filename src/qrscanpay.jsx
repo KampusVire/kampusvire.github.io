@@ -10,11 +10,13 @@ import { GRAPHQL_ENDPOINT } from "./config";
 import moneyIcon from "./components/img/money.png";
 import toast, { Toaster } from 'react-hot-toast';
 import Navbar from "./components/Navbar";
+import { useHistory } from "react-router";
 
 
 const QRScanPay = () => {
   const [details, setDetails] = useState("-1");
   let amount = 0;
+  const history = useHistory()
 
   const sendCrypto = async () => {
     // sendINR
@@ -52,7 +54,7 @@ const QRScanPay = () => {
   
       if (transactionReceipt.status) {
         toast.success("Transaction Successful");
-        window.location.href="/successtask"
+        history.push("/successtask")
 
         // alert("Transaction Successful");
       } else {
@@ -148,7 +150,7 @@ const QRScanPay = () => {
     }
 
     toast.success("Transfer Successful")
-    window.location.href="/successtask"
+    history.push("/successtask")
     // alert("Transaction successful");
   };
 

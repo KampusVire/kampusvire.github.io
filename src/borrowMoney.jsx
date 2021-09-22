@@ -7,12 +7,15 @@ import icon from "./components/img/icon.png"
 import Navbar from "./components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 import { Redirect } from "react-router";
+import { useHistory } from "react-router";
 
 
 const BorrowMoney = ()=>{
     const [details, setDetails] = useState("-1")
     let amount = 0;
     let description = "Borrowing"
+    const history = useHistory()
+
 
     const borrowMoney = async()=>{
         if(amount == 0){
@@ -59,7 +62,7 @@ const BorrowMoney = ()=>{
             return {};
         };
         toast.success("Successfully Borrowed")
-        window.location.href="/successtask"
+        history.push("/successtask")
     }
 
     return (<>

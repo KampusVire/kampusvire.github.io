@@ -8,6 +8,7 @@ import "./components/cart.css";
 import "./components/payment-confirmation.css";
 import Navbar from './components/Navbar';
 import toast, { Toaster } from 'react-hot-toast';
+import { useHistory } from 'react-router';
 
 const Cart = ()=>{
 
@@ -18,6 +19,7 @@ const Cart = ()=>{
     const Razorpay = useRazorpay();
     var paymentType = "cash";
     var scheduledTime = (new Date()).toISOString();
+    const history = useHistory()
 
     // "objId"
     // "name" 
@@ -159,6 +161,7 @@ const Cart = ()=>{
                 else if(response.data.data.placeOrder.paymentType === "cash"){
                     toast.success("Your order has been placed. Payment will be processed soon");
                     console.log("Successful payment")
+                    history.push("/successtask")
                 }
 
                 else if(response.data.data.placeOrder.paymentType === "virtualwallet"){
@@ -198,6 +201,7 @@ const Cart = ()=>{
                     }else{
                         toast.success("Your order has been placed. Payment will be processed soon");
                         console.log("Successful payment")
+                        history.push("/successtask")
                     }
 
                 }
@@ -281,6 +285,7 @@ const Cart = ()=>{
                         }else{
                             console.log("Successful payment")
                             toast.success("Your order has been placed. Payment will be processed soon");
+                            history.push("/successtask")
                         }
 
                     } catch (error) {
