@@ -41,7 +41,7 @@ export default function Navbar() {
                 <div class="position-absolute end-50 w-25">
                    <Link to="/"> <img src={icon}  height="30px" /></Link>
                 </div>
-                {isShop ? <Link to="/cart"><i className="fas fa-shopping-cart mx-3 text-light fs-3"></i></Link> : <span></span>}
+                {isShop != "true" ? <Link to="/cart"><i className="fas fa-shopping-cart mx-3 text-light fs-3"></i></Link> : <span></span>}
                 
             </nav>
             <div className="sidebar hide" id="sideMenu">
