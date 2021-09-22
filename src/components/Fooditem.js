@@ -14,6 +14,7 @@ export default function Fooditem(props) {
                           Order here
                         </button>
                     </div>
+                    <div className="corner-ribbon top-right sticky red open_sans fw-bold">Busy</div>
                 </div>
             </div>
     )

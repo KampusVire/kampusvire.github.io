@@ -17,7 +17,7 @@ import OrderLog from './orderLog';
 import AddProduct from './addProduct';
 import SuccessPage from './successPage';
 import ErrorPage from './errorPage';
-
+import AllProductsShop from './allProductsShop';
 
 function App() {
   var apiToken = localStorage.getItem('token');
@@ -53,6 +53,7 @@ function App() {
         <Route path="/addproduct" exact component={AddProduct} />
         <Route path="/successtask" exact component={SuccessPage} />
         <Route path="/errortask" exact component={ErrorPage} />
+        <Route path="/allproducts" exact component={AllProductsShop} />
         <Redirect to="/"/> 
       </Switch>
       </>

@@ -6,6 +6,8 @@ import { addToCart } from "./shopping_function";
 import "./components/canteen.css";
 import canteenImage from "./components/img/Rectangle 100 (1).png";
 import toast, { Toaster } from 'react-hot-toast';
+import "./components/cornerRibbon.css";
+
 
 const AllProducts = (props) => {
   const { shopid } = useParams();
@@ -22,6 +24,7 @@ const AllProducts = (props) => {
                 node{
                   name
                   picture
+                  openAt
                   closeAt
                   longitudeCoordinate
                   latitudeCoordinate
@@ -98,10 +101,10 @@ const AllProducts = (props) => {
             <a target="__blank" href={"https://www.google.com/maps/search/?api=1&query="+canteenDetails.current.latitudeCoordinate+","+canteenDetails.current.longitudeCoordinate}><i className="fas fa-map-marker-alt text-warning"></i></a>
           </div>
           <div
-            className="d-flex justify-content-between align-items-center w-50 mb-1"
+            className="d-flex justify-content-between align-items-center w-75 mt-2 mb-1"
             style={{ fontSize: "1rem" }}
           >
-            <small className="open_sans">Closes in {canteenDetails.current.closeAt ?? ".."}</small>
+            <small className="open_sans">Open at {canteenDetails.current.openAt ?? ".."} | Closes at {canteenDetails.current.closeAt ?? ".."}</small>
             {/* <small className="open_sans fw-bold text-danger">Busy</small> */}
           </div>
           <div className="text-center w-75 lh-1">{canteenDetails.current.name ?? "..."}</div>
@@ -112,7 +115,7 @@ const AllProducts = (props) => {
         {products.map((product) => {
           return (
             <div
-              className="card  m-1 p-0 bg-light"
+              className="card  m-1 p-0 bg-light  position-relative overflow-hidden"
               style={{ width: "47%" }}
               key={product.objId}
             >
@@ -121,6 +124,7 @@ const AllProducts = (props) => {
                 className="card-img-top"
               />
               <div className="card-body p-1">
+
                 <h6 className="card-title text-center open_sans fw-bold m-2 text-capitalize">
                   {product.name}
                 </h6>
@@ -132,6 +136,7 @@ const AllProducts = (props) => {
                 <div className="d-grid">
                   <button
                     className="btn bg-green fs-6 text-light mb-2 mx-2 fw-bold rubik rounded-pill d-block food"
+                    disabled={!product.isAvailable}
                     onClick={() => {
                       addToCart(shopid, product.objId);
                       toast.success('Added to cart!');
@@ -140,6 +145,8 @@ const AllProducts = (props) => {
                     Order here
                   </button>
                 </div>
+                {product.isAvailable ? <spa></spa> :  <div className="corner-ribbon top-right sticky red open_sans fw-bold">Busy</div>}
+
               </div>
             </div>
           );

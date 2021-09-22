@@ -315,9 +315,10 @@ const Cart = ()=>{
           {products.length == 0 ? (
             <h2>Please add some product first</h2>
           ) : (
-            products.map((product, index) => {
+            <>
+              <div className="items-list">
+              {products.map((product, index) => {
               return (
-                <div className="items-list">
                   <div className="item" key={index}>
                     <h3 className="item-name">{product.name}</h3>
                     <p className="item-cost"> Price per piece: {product.price}</p>
@@ -354,9 +355,11 @@ const Cart = ()=>{
                     {/* <div className="prep-time">Prep time: 25min</div> */}
                     <div className="total">Rs {product.price*product.quantity}</div>
                   </div>
-                </div>
               );
-            })
+            })}
+              </div>
+            </>
+            
           )}
           <div class="total-amount-field">
             <div class="total-amount">

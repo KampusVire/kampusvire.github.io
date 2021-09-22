@@ -75,8 +75,8 @@ const VirtualWallet = () => {
             position="top-right"
             reverseOrder={false}
         />
-        <h1 className="text-center header my-5 py-3">Kampus Vire</h1>
-        <h1 className="text-center rubik fw-bold mt-5 pt-5 mb-3">
+        <h1 className="text-center header my-3 py-2">Kampus Vire</h1>
+        <h1 className="text-center rubik fw-bold mt-3  mb-3">
             Virtual Wallet
             <i className="fas fa-coins text-warning"></i>
         </h1>
