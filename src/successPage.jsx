@@ -14,7 +14,7 @@ const SuccessPage = () => {
       </div>
       <div class="container rubik txt-green">
         <div class="text-uppercase fs-1 text-center">
-          <i class="far fa-check-circle"></i>
+          <i class="far fa-check-circle" style={{fontSize : "6rem"}}></i>
           <br />
           <p class="mt-3">Your request has been processed</p>
         </div>
